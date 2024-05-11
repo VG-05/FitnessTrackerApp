@@ -1,7 +1,6 @@
 $(() => {
     loadChart();
 })
-
 function loadChart() {
     $.ajax({
         type: "GET",
@@ -42,7 +41,6 @@ function loadChart() {
             }
         });
         
-        Chart.defaults.color = 'rgb(226, 234, 244)';
            
         new Chart("bodyWeightChart", {
             type: 'line',
