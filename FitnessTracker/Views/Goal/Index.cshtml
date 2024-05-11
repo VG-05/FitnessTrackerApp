@@ -1,0 +1,16 @@
+﻿@model List<Goal>
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row h-300">
+        <div class="col-6">
+            <canvas id="goalChart" class="d-block w-100" alt="Target Weight Progress..."></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+	<script src="~/js/goalchart.js"></script>
+}
