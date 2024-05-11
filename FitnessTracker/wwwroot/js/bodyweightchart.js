@@ -68,6 +68,11 @@ function loadChart() {
                         },
                         padding: 14
                     }
+                },
+                elements: {
+                    point: {
+                        pointBackgroundColor: 'rgb(75,192,192)'
+                    }
                 }
             },
             data: {

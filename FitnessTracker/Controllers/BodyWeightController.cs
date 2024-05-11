@@ -83,7 +83,7 @@ namespace FitnessTracker.Controllers
 			return View(bodyWeightVM);
 		}
 
-		// POST: BodyWeightController/Edit/5
+		// POST: BodyWeightController/Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit(BodyWeightVM bodyWeightVM)

@@ -2,10 +2,13 @@
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container">
-	<div class="row">
-		<canvas id="bodyWeightChart"></canvas>
-	</div>
+    <div class="row h-300">
+        <div class="col-6">
+            <canvas id="bodyWeightChart" class="d-block w-100" alt="Body Weight Progress..."></canvas>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
