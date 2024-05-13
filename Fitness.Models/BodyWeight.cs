@@ -7,7 +7,7 @@ namespace Fitness.Models
 		[Key]
 		public int Id { get; set; }
 		[Required]
-		public int Weight { get; set; }
+		public double Weight { get; set; }
 		[AllowedValues(["kgs", "lbs"], ErrorMessage = "Please enter one of 'kgs' or 'lbs'.")]
 		[Required]
 		public string Unit { get; set; }             

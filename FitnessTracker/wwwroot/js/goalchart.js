@@ -107,9 +107,6 @@ function loadChart() {
                         time: {
                             tooltipFormat: 'DD T'
                         }
-                    },
-                    y: {
-                        grace: 15,
                     }
                 },
                 plugins: {
