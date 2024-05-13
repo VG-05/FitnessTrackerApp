@@ -8,6 +8,14 @@
         <div class="col-6">
             <canvas id="goalChart" class="d-block w-100" alt="Target Weight Progress..."></canvas>
         </div>
+        <div class="col-6">
+            <a asp-controller="Goal" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-bullseye"></i> Add Goal
+            </a>
+            <a class="btn btn-primary" asp-controller="Goal" asp-action="Details">
+                <i class="bi bi-list-task"></i> Display/Edit Goals
+            </a>
+        </div>
     </div>
 </div>
 

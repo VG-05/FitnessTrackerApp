@@ -21,8 +21,8 @@ namespace FitnessTracker.Controllers
             return View(Goals);
         }
 
-        // GET: GoalController/Details/5
-        public IActionResult Details(int id)
+        // GET: GoalController/Details
+        public IActionResult Details()
         {
             List<Goal> Goals = _unitOfWork.Goal.GetAll().ToList();
             return View(Goals);

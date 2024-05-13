@@ -21,8 +21,8 @@ namespace FitnessTracker.Controllers
 			return View(BodyWeights);
 		}
 
-		// GET: BodyWeightController/Details/5
-		public IActionResult Details(int id)
+		// GET: BodyWeightController/Details
+		public IActionResult Details()
 		{
 			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().ToList();
 			return View(BodyWeights);

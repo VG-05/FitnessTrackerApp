@@ -18,9 +18,9 @@ function loadChart() {
         var numberOfPounds = 0;
         var numberOfKgs = 0;
         _data.data.forEach(function (obj) {
-            if (obj.unit === "kgs") {              // unit is in kilogram
+            if (obj.unit === "kgs") {              
                 numberOfKgs+=1;
-            } else {                         // unit is in pounds
+            } else {                       
                 numberOfPounds+=1;
             }
             _chartLabels.push(obj.date);
