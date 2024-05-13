@@ -114,7 +114,7 @@ namespace FitnessTracker.Controllers
 		}
 
 		// POST: BodyWeightController/Delete/5
-		[HttpPost]
+		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public IActionResult DeletePOST(int? id)
 		{
