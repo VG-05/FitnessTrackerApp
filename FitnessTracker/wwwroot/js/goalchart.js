@@ -1,7 +1,4 @@
 $(() => {
-    loadChart();
-})
-function loadChart() {
     $.when(
         $.ajax({
             type: "GET",
@@ -16,132 +13,170 @@ function loadChart() {
             dataType: "json"
         })
     )
-        .done(onSuccessResult);
+    .done(onSuccessResult);
+})
+function onSuccessResult(goal, bodyWeights) {
+    let _progressData = bodyWeights[0].data;
+    let _goalData = goal[0].data;
+    let _chartLabels = new Array();
+    let _progressChart = new Array();
+    let _goalChart = new Array();
+    let numberOfPounds = 0;
+    let numberOfKgs = 0; 
+    let weight = 0;
 
-    function onSuccessResult(goal, bodyWeights) {
-        let _chartLabels = new Array();
-        let _goalChartData = new Array();
-        let _progressChartData = new Array();
-        let numberOfPounds = 0;
-        let numberOfKgs = 0;
 
-        // calculating how many weight logs are in kgs or lbs and populating _chartLabels
-        bodyWeights[0].data.forEach(function (bodyWeight) {
-            if (bodyWeight.unit === "kgs") {
-                numberOfKgs += 1;
-            } else {
-                numberOfPounds += 1;
-            }
-            _chartLabels.push(bodyWeight.date);
-        });
+    // calculating how many weight logs are in kgs or lbs and populating _chartLabels
+    _progressData.forEach(function (bodyWeight) {
+        if (bodyWeight.unit === "kgs") {
+            numberOfKgs += 1;
+        } else {
+            numberOfPounds += 1;
+        }
+        _chartLabels.push(bodyWeight.date);
+    });
 
-        // changing the weight logs to dominant unit and populating _progressChartData
-        bodyWeights[0].data.forEach(function (bodyWeight) {
-            if (numberOfPounds > numberOfKgs) {
-                if (bodyWeight.unit == "kgs") {
-                    _progressChartData.push(bodyWeight.weight * 2.205);
-                } else {
-                    _progressChartData.push(bodyWeight.weight);
-                }
-            } else {
-                if (bodyWeight.unit == "kgs") {
-                    _progressChartData.push(bodyWeight.weight);
-                } else {
-                    _progressChartData.push(bodyWeight.weight / 2.205);
-                }
-            }
-        });
+    let dominantUnit;
+    if (numberOfPounds > numberOfKgs) {
+        dominantUnit = "lb";
+    } else {
+        dominantUnit = "kg";
+    }
 
-        // include initial bodyweight (in dominant unit) in _goalChartData
+    // changing the weight logs to dominant unit and populating _progressChart with coordinate/object (x: date, y: weight)
+    _progressData.forEach(function (bodyWeight) {
         if (numberOfPounds > numberOfKgs) {
-            if (bodyWeights[0].data[0].unit == "kgs") {
-                _goalChartData.push(_progressChartData[0] * 2.205);
+            if (bodyWeight.unit == "kgs") {
+                weight = bodyWeight.weight * 2.205
             } else {
-                _goalChartData.push(_progressChartData[0]);
+                weight = bodyWeight.weight;
             }
         } else {
-            if (bodyWeights[0].data[0].unit == "kgs") {
-                _goalChartData.push(_progressChartData[0]);
+            if (bodyWeight.unit == "kgs") {
+                weight = bodyWeight.weight;
             } else {
-                _goalChartData.push(_progressChartData[0] / 2.205);
+               weight = bodyWeight.weight / 2.205;
             }
         }
-        // adding goal weight log to _goalChartData and _chartLabels
-        goal[0].data.forEach(function (goalWeight) {
-            if (numberOfPounds > numberOfKgs) {
-                if (goalWeight.unit == "kgs") {
-                    _goalChartData.push(goalWeight.targetWeight * 2.205);
-                } else {
-                    _goalChartData.push(goalWeight.targetWeight);
-                }
-            } else {
-                if (goalWeight.unit == "kgs") {
-                    _goalChartData.push(goalWeight.targetWeight);
-                } else {
-                    _goalChartData.push(goalWeight.targetWeight / 2.205);
-                }
-            }
-            _chartLabels.push(goalWeight.targetDate);
-        });
+        _progressChart.push({ x: bodyWeight.date, y: weight });
+    });
 
-        let _progressChart = new Array();
-        for (let i = 0; i < _progressChartData.length; i++) {
-            _progressChart.push({
-                x: _chartLabels[i],
-                y: _progressChartData[i]
-            });
+
+    // include initial bodyweight (in dominant unit) in _goalChart
+    if (numberOfPounds > numberOfKgs) {
+        if (_progressData[0].unit == "kgs") {
+            weight = _progressData[0].weight * 2.205;
+        } else {
+            weight = _progressData[0].weight;
         }
+    } else {
+        if (_progressData[0].unit == "kgs") {
+            weight = _progressData[0].weight;
+        } else {
+            weight = _progressData[0].weight / 2.205;
+        }
+    }
+    _goalChart.push({ x: _progressData[0].date, y: weight });
 
-        let _goalChart = new Array();
-        _goalChart.push({ x: _chartLabels[0], y: _goalChartData[0] });
-        _goalChart.push({ x: _chartLabels[_chartLabels.length - 1], y: _goalChartData[1] });
 
+    // adding goal weight logs to _goalChart and _chartLabels
+    _goalData.forEach(function (goalWeight) {
+        if (numberOfPounds > numberOfKgs) {
+            if (goalWeight.unit == "kgs") {
+                weight = goalWeight.targetWeight * 2.205;
+            } else {
+                weight = goalWeight.targetWeight;
+            }
+        } else {
+            if (goalWeight.unit == "kgs") {
+                weight = goalWeight.targetWeight;
+            } else {
+                weight = goalWeight.targetWeight / 2.205;
+            }
+        }
+        _chartLabels.push(goalWeight.targetDate);
+        _goalChart.push({ x: goalWeight.targetDate, y: weight})
+    });
 
-
-        new Chart("goalChart", {
-            type: 'line',
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            tooltipFormat: 'DD T'
-                        }
+    let goalchart = new Chart("goalChart", {
+        type: 'line',
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        tooltipFormat: 'DD T',
+                        minUnit: "day"
                     }
                 },
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    },
+                y: {
                     title: {
                         display: true,
-                        text: "Body Weight Progress",
-                        font: {
-                            size: 14
-                        },
-                        padding: 14
-                    }
-                },
-                elements: {
-                    point: {
-                        pointBackgroundColor: 'rgb(75,192,192)'
-                    }
+                        text: "Bodyweight (" + dominantUnit + ")" 
+                    },
+                    grace: 15
                 }
             },
-            data: {
-                labels: _chartLabels,
-                datasets: [{
-                    label: 'Body Weight',
-                    data: _progressChart,
-                    borderColor: 'rgb(75,192,192)',
-                    tension: 0.1
-                }, {
-                    label: 'Target Weight',
-                    data: _goalChart,
-                    borderColor: 'rgb(255, 205, 86)',
-                    borderDash: [5, 5]
-                }]
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: "All Time"
+                }
+            },
+            elements: {
+                point: {
+                    pointBackgroundColor: 'rgb(75,192,192)'
+                }
             }
-        });
-    }
+        },
+        data: {
+            labels: _chartLabels,
+            datasets: [{
+                label: 'Body Weight',
+                data: _progressChart,
+                borderColor: 'rgb(75,192,192)',
+                tension: 0.1
+            }, {
+                label: 'Target Weight',
+                data: _goalChart,
+                borderColor: 'rgb(255, 205, 86)',
+                borderDash: [5, 5]
+            }]
+        }
+    });
+
+
+    let lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
+
+    $("#Goal-Weekly").on('click', () => {
+        goalchart.options.plugins.title.text = "This Week"
+        goalchart.options.scales.x.min = lastLogged.startOf("week").toISO();
+        goalchart.options.scales.x.max = lastLogged.endOf("week").toISO();
+        goalchart.options.scales.x.time.displayFormats.day = "EEE, dd MMM";
+        goalchart.update();
+    })
+    $("#Goal-Monthly").on('click', () => {
+        goalchart.options.plugins.title.text = "This Month"
+        goalchart.options.scales.x.min = lastLogged.startOf("month").toISO();
+        goalchart.options.scales.x.max = lastLogged.endOf("month").toISO();
+        delete goalchart.options.scales.x.time.displayFormats.day;
+        goalchart.update();
+    })
+    $("#Goal-Annual").on('click', () => {
+        goalchart.options.plugins.title.text = "This Year"
+        goalchart.options.scales.x.min = lastLogged.startOf("year").toISO();
+        goalchart.options.scales.x.max = lastLogged.endOf("year").toISO();
+        delete goalchart.options.scales.x.time.displayFormats.day;
+        goalchart.update();
+    })
+    $("#Goal-AllTime").on('click', () => {
+        goalchart.options.plugins.title.text = "All Time"
+        delete goalchart.options.scales.x.min;
+        delete goalchart.options.scales.x.max;
+        delete goalchart.options.scales.x.time.displayFormats.day;
+        goalchart.update();
+    })
 }

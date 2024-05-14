@@ -4,11 +4,22 @@
 }
 
 <div class="container">
-    <div class="row h-300">
-        <div class="col-6">
-            <canvas id="goalChart" class="d-block w-100" alt="Target Weight Progress..."></canvas>
+    <div class="row">
+        <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
+
+            <input type="radio" class="btn-check" name="btnradio" id="Goal-Weekly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Weekly">Weekly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Goal-Monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Monthly">Monthly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Goal-Annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Annual">Annual</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Goal-AllTime" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="Goal-AllTime">All Time</label>
         </div>
-        <div class="col-6">
+        <div class="col-6 text-end">
             <a asp-controller="Goal" asp-action="Create" class="btn btn-primary">
                 <i class="bi bi-bullseye"></i> Add Goal
             </a>
@@ -17,8 +28,13 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12"> 
+            <canvas id="goalChart" class="d-block" alt="Target Weight Progress..."></canvas>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
-	<script src="~/js/goalchart.js"></script>
+	<script src="~/js/goalchart.js" asp-append-version="true"></script>
 }

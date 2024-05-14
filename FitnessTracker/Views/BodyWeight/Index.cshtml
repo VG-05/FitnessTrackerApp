@@ -4,17 +4,22 @@
 }
 
 <div class="container">
-    <div class="row h-300">
-        <div class="col-6">
-            <div class="btn-group" role="group" aria-label="Choose Time For BodyWeight Graph">
-                <button class="btn btn-primary" id="Weekly">Weekly</button>
-                <button class="btn btn-primary" id="Monthly">Monthly</button>
-                <button class="btn btn-primary" id="Annual">Annual</button>
-                <button class="btn btn-primary" id="AllTime">All Time</button>
-            </div>
-            <canvas id="bodyWeightChart" class="d-block w-100" alt="Body Weight Progress..."></canvas>
+    <div class="row">
+        <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
+
+            <input type="radio" class="btn-check" name="btnradio" id="bodyweight-weekly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="bodyweight-weekly">Weekly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="bodyweight-monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="bodyweight-monthly">Monthly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="bodyweight-annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="bodyweight-annual">Annual</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="bodyweight-all" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="bodyweight-all">All Time</label>
         </div>
-        <div class="col-6">
+        <div class="col-6 text-end">
             <a class="btn btn-primary" asp-action="Create">
                 <i class="bi bi-calendar-plus"></i> Log Bodyweight
             </a>
@@ -23,8 +28,13 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <canvas id="bodyWeightChart" class="d-block" alt="Body Weight Progress..."></canvas>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
-	<script src="~/js/bodyweightchart.js"></script>
+	<script src="~/js/bodyweightchart.js" asp-append-version="true"></script>
 }

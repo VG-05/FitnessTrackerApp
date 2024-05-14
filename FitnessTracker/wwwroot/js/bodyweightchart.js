@@ -25,6 +25,13 @@ function onSuccessResult(data) {
         }
         _chartLabels.push(obj.date);
     });
+
+    let dominantUnit;
+    if (numberOfPounds > numberOfKgs) {
+        dominantUnit = "lb";
+    } else {
+        dominantUnit = "kg";
+    }
     _data.forEach(function (obj) {
         if (numberOfPounds > numberOfKgs) {
             if (obj.unit == "kgs") {
@@ -54,6 +61,10 @@ function onSuccessResult(data) {
                     }
                 },
                 y: {
+                    title: {
+                        display: true,
+                        text: "Bodyweight (" + dominantUnit + ")" 
+                    },
                     grace: 15
                 }
             },
@@ -63,11 +74,7 @@ function onSuccessResult(data) {
                 },
                 title: {
                     display: true,
-                    text: "Body Weight Progress",
-                    font: {
-                        size: 14
-                    },
-                    padding: 14
+                    text: "All Time"
                 }
             },
             elements: {
@@ -88,22 +95,26 @@ function onSuccessResult(data) {
         }
     });
 
-    $("#Weekly").on('click', () => {
+    $("#bodyweight-weekly").on('click', () => {
+        bodyweightchart.options.plugins.title.text = "This Week"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("week").toISO();
         bodyweightchart.options.scales.x.time.displayFormats.day = "EEE, dd MMM";
         bodyweightchart.update();
     })
-    $("#Monthly").on('click', () => {
+    $("#bodyweight-monthly").on('click', () => {
+        bodyweightchart.options.plugins.title.text = "This Month"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("month").toISO();
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();
     })
-    $("#Annual").on('click', () => {
+    $("#bodyweight-annual").on('click', () => {
+        bodyweightchart.options.plugins.title.text = "This Year"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("year").toISO();
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();
     })
-    $("#AllTime").on('click', () => {
+    $("#bodyweight-all").on('click', () => {
+        bodyweightchart.options.plugins.title.text = "All Time"
         delete bodyweightchart.options.scales.x.min;
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();
