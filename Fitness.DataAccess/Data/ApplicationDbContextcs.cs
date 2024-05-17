@@ -12,6 +12,7 @@ namespace Fitness.DataAccess.Data
 
 		public DbSet<BodyWeight> BodyWeights { get; set; }
 		public DbSet<Goal> Goal { get; set; }
+		public DbSet<Meal> Meals { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -23,6 +24,9 @@ namespace Fitness.DataAccess.Data
 			);
 			modelBuilder.Entity<Goal>().HasData(
 				new Goal { Id = 1, TargetWeight = 50.0, Unit = "kgs", TargetDate = new DateTime(2020, 2, 25)}
+			);
+			modelBuilder.Entity<Meal>().HasData(
+				new Meal { Id = 1, FoodName = "Test", ServingSize = 11, Calories = 110.5, Carbohydrates = 15.6, Protein = 2, Fat = 9, MealTime = "Breakfast", Date = DateOnly.FromDateTime(DateTime.Now) }
 			);
 		}
 	}

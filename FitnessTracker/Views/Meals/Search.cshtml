@@ -1,0 +1,44 @@
+﻿@model MealsVM
+
+<h1>Search Food</h1>
+
+<form id="searchForm">
+	<div class="form-group">
+		<label asp-for="SearchString">Food Name</label>
+		<input asp-for="SearchString" class="form-control" id="foodSearch" placeholder="Enter food name" />
+	</div>
+    <button type="submit" class="btn btn-primary form-control">Search</button>
+</form>
+
+<form>
+    <div id="searchResults" class="mt-4">
+        @if (Model != null && Model.Meals != null && Model.Meals.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Brand</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model.Meals)
+                    {
+                        <tr>
+                            <td>@item.FoodName</td>
+                            <td>@item.BrandName</td>
+                            <td>
+                                <a asp-controller="Meals" asp-action="AddFood" asp-route-id="@item.Id" class="btn btn-info">View Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else if (Model != null && Model.Meals != null)
+        {
+            <p>No results found.</p>
+        }
+    </div>
+</form>

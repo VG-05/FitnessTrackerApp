@@ -1,0 +1,90 @@
+﻿@model Meal
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-primary bg-gradient m-lg-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">Food Details</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<form method="post" class="row">
+			<div asp-validation-summary="ModelOnly"></div>
+			<div class="form-floating py-2 col-2">
+				<input asp-for="FoodName" class="form-control border-0 shadow" readonly />
+				<label asp-for="FoodName" class="ms-2"></label>
+			</div>
+			@if (Model.BrandName!=null)
+			{
+				<div class="form-floating py-2 col-4">
+					<input asp-for="BrandName" class="form-control border-0 shadow" readonly />
+					<label asp-for="BrandName" class="ms-2"></label>
+				</div>
+			}
+			@* <div class="form-floating py-2 col-2">
+				<select asp-for="" asp-items="@Model." class="form-select border-0 shadow">
+					<option disabled selected>--Select Meal Time--</option>
+				</select>
+				<label asp-for="" class="ms-2"></label>
+				<span asp-validation-for="" class="text-danger"></span>
+			</div> *@
+			<div class="form-floating py-2 col-4">
+				<input id="calories" asp-for="Calories" class="form-control border-0 shadow" readonly />
+				<label asp-for="Calories" class="ms-2"></label>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input id="carbohydrates" asp-for="Carbohydrates" class="form-control border-0 shadow" readonly />
+				<label asp-for="Carbohydrates" class="ms-2"></label>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input id="protein" asp-for="Protein" class="form-control border-0 shadow" readonly />
+				<label asp-for="Protein" class="ms-2"></label>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input id="fat" asp-for="Fat" class="form-control border-0 shadow" readonly />
+				<label asp-for="Fat" class="ms-2"></label>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input id="servings" asp-for="ServingSize" class="form-control border-0 shadow" />
+				<label asp-for="ServingSize" class="ms-2"></label>
+				<span asp-validation-for="ServingSize" class="text-danger"></span>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input asp-for="Date" class="form-control border-0 shadow" />
+				<label asp-for="Date" class="ms-2"></label>
+				<span asp-validation-for="Date" class="text-danger"></span>
+			</div>
+			<div class="form-floating py-2 col-4">
+				<input asp-for="MealTime" class="form-control border-0 shadow" />
+				<label asp-for="MealTime" class="ms-2"></label>
+				<span asp-validation-for="MealTime" class="text-danger"></span>
+			</div>
+			<div class="row pt-2">
+				<div class="col-6 col-md-3">
+					<button type="submit" class="btn btn-primary form-control">Add Food</button>
+				</div>
+				<div class="col-6 col-md-3">
+					<a asp-controller="Meals" asp-action="Search" class="btn btn-outline-primary border form-control">
+						Back To Search
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		document.getElementById('servings').addEventListener('change', function () {
+			let servings = document.getElementById('servings').value;
+			document.getElementById('calories').value = servings * @Model.Calories;
+			document.getElementById('carbohydrates').value = servings * @Model.Carbohydrates;
+			document.getElementById('protein').value = servings * @Model.Protein;
+			document.getElementById('fat').value = servings * @Model.Fat;
+		});
+	</script>
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

@@ -10,6 +10,7 @@ namespace Fitness.DataAccess.Repositories.Interfaces
 	{
 		IBodyWeightRepository BodyWeight { get; }
 		IGoalRepository Goal { get; }
+		IMealRepository Meals { get; }
 		void Save();
 	}
 }

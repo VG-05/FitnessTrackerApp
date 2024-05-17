@@ -2,6 +2,8 @@ using Fitness.DataAccess.Data;
 using Fitness.DataAccess.Repositories.Interfaces;
 using Fitness.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using FitnessTracker.Services;
+using FitnessTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddHttpClient<USDAFoodService>();
+builder.Services.AddScoped<IUSDAFoodService, USDAFoodService>();
 
 var app = builder.Build();
 

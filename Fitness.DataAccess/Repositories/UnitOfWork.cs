@@ -12,6 +12,9 @@ namespace Fitness.DataAccess.Repositories
 	{
 		public IBodyWeightRepository BodyWeight { get; private set; }
 		public IGoalRepository Goal { get; private set; }
+
+		public IMealRepository Meals { get; private set; }
+
 		private readonly ApplicationDbContext _db;
 		public UnitOfWork(ApplicationDbContext db)
 		{
