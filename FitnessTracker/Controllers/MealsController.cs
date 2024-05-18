@@ -2,6 +2,7 @@
 using Fitness.Models;
 using Fitness.Models.ViewModels;
 using FitnessTracker.Services;
+using FitnessTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -10,9 +11,9 @@ namespace FitnessTracker.Controllers
 {
     public class MealsController : Controller
     {
-        private readonly USDAFoodService _usdaFoodService;
+        private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
-        public MealsController(USDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
+        public MealsController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
@@ -22,13 +23,13 @@ namespace FitnessTracker.Controllers
             return View();
         }
 
-        public IActionResult Search(MealsVM? mealsVM)
+        public async Task<IActionResult> Search(MealsVM? mealsVM)
         {
             if (mealsVM==null || mealsVM.SearchString == "")
             {
                 return View();
             }
-            JObject foodData = _usdaFoodService.GetFoodDataAsync(mealsVM.SearchString);
+            JObject foodData = await _usdaFoodService.GetFoodDataAsync(mealsVM.SearchString);
             mealsVM.Meals = foodData["foods"].Select(food => new Meal
             {
                 Id = (int)food["fdcId"],
@@ -39,9 +40,9 @@ namespace FitnessTracker.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddFood(int id)
+        public async Task<IActionResult> AddFood(int id)
         {
-            JObject foodItem = _usdaFoodService.GetFoodDataByIdAsync(id);
+            JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(id);
             if (foodItem != null)
             {
                 Meal meal = new Meal

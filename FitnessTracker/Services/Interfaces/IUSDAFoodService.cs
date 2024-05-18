@@ -4,7 +4,7 @@ namespace FitnessTracker.Services.Interfaces
 {
 	public interface IUSDAFoodService
 	{
-		public JObject GetFoodDataAsync(string query);
-		public JObject GetFoodDataByIdAsync(int id);
+		Task<JObject> GetFoodDataAsync(string query);
+		Task<JObject> GetFoodDataByIdAsync(int id);
 	}
 }

@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddHttpClient<USDAFoodService>();
+builder.Services.AddHttpClient("nutritionapi", client =>
+{
+	client.BaseAddress = new Uri("https://api.nal.usda.gov/fdc/v1");
+});
 builder.Services.AddScoped<IUSDAFoodService, USDAFoodService>();
 
 var app = builder.Build();
