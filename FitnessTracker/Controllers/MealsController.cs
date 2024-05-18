@@ -23,7 +23,7 @@ namespace FitnessTracker.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Search(MealsVM? mealsVM)
+        public async Task<IActionResult> SearchAsync(MealsVM? mealsVM)
         {
             if (mealsVM==null || mealsVM.SearchString == "")
             {
@@ -40,7 +40,7 @@ namespace FitnessTracker.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddFood(int id)
+        public async Task<IActionResult> AddFoodAsync(int id)
         {
             JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(id);
             if (foodItem != null)
@@ -74,5 +74,7 @@ namespace FitnessTracker.Controllers
             }
             return View(meal.Id);
         }
+
+
     }
 }
