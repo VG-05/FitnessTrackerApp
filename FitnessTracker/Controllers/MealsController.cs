@@ -20,9 +20,11 @@ namespace FitnessTracker.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
+            return View(Meals);
         }
 
+        [ActionName("Search")]
         public async Task<IActionResult> SearchAsync(MealsVM? mealsVM)
         {
             if (mealsVM==null || mealsVM.SearchString == "")
@@ -39,8 +41,9 @@ namespace FitnessTracker.Controllers
             return View(mealsVM);
         }
 
+        [ActionName("Add")]
         [HttpGet]
-        public async Task<IActionResult> AddFoodAsync(int id)
+        public async Task<IActionResult> AddAsync(int id)
         {
             JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(id);
             if (foodItem != null)
@@ -64,7 +67,7 @@ namespace FitnessTracker.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddFood(Meal meal)
+        public IActionResult Add(Meal meal)
         {
             if (ModelState.IsValid)
             {
@@ -76,5 +79,50 @@ namespace FitnessTracker.Controllers
         }
 
 
-    }
+        public IActionResult Edit(int id)
+        {
+            Meal meal = _unitOfWork.Meals.Get(u=> u.Id == id);
+            if (meal!=null)
+            {
+                return View(meal);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Meal meal)
+        {
+            if (ModelState.IsValid)
+            {
+				_unitOfWork.Meals.Update(meal);
+                _unitOfWork.Save();
+                return RedirectToAction("Index");
+			}
+            return View(meal.Id);
+        }
+
+		public IActionResult Delete(int id)
+		{
+			Meal meal = _unitOfWork.Meals.Get(u => u.Id == id);
+			if (meal != null)
+			{
+				return View(meal);
+			}
+			return NotFound();
+		}
+
+        [ActionName("Delete")]
+		[HttpPost]
+		public IActionResult DeletePOST(int id)
+		{
+			Meal meal = _unitOfWork.Meals.Get(u => u.Id == id);
+			if (meal != null)
+			{
+				_unitOfWork.Meals.Remove(meal);
+                _unitOfWork.Save();
+                return RedirectToAction("Index");
+			}
+            return NotFound();
+		}
+	}
 }
