@@ -12,6 +12,7 @@ namespace Fitness.Models
     {
         [Key]
         public int Id { get; set; }
+        public int Api_Id { get; set; }
         public string? FoodName { get; set; } = string.Empty;
         public double? ServingSize { get; set; }
         public double? Calories { get; set; }

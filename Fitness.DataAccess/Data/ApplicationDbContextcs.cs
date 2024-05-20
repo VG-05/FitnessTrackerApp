@@ -26,7 +26,7 @@ namespace Fitness.DataAccess.Data
 				new Goal { Id = 1, TargetWeight = 50.0, Unit = "kgs", TargetDate = new DateTime(2020, 2, 25)}
 			);
 			modelBuilder.Entity<Meal>().HasData(
-				new Meal { Id = 1, FoodName = "Test", ServingSize = 11, Calories = 110.5, Carbohydrates = 15.6, Protein = 2, Fat = 9, MealTime = "Breakfast", Date = DateOnly.FromDateTime(DateTime.Now) }
+				new Meal { Id = 1, Api_Id = 534358, FoodName = "Test", ServingSize = 11, Calories = 110.5, Carbohydrates = 15.6, Protein = 2, Fat = 9, MealTime = "Breakfast", Date = DateOnly.FromDateTime(DateTime.Now) }
 			);
 		}
 	}

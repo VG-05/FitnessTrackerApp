@@ -34,7 +34,7 @@ namespace FitnessTracker.Controllers
             JObject foodData = await _usdaFoodService.GetFoodDataAsync(mealsVM.SearchString);
             mealsVM.Meals = foodData["foods"].Select(food => new Meal
             {
-                Id = (int)food["fdcId"],
+                Api_Id = (int)food["fdcId"],
                 FoodName = (string?)food["description"],
                 BrandName = (string?)food["brandName"]
             }).ToList();
@@ -43,14 +43,14 @@ namespace FitnessTracker.Controllers
 
         [ActionName("Add")]
         [HttpGet]
-        public async Task<IActionResult> AddAsync(int id)
+        public async Task<IActionResult> AddAsync(int api_id)
         {
-            JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(id);
+            JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(api_id);
             if (foodItem != null)
             {
                 Meal meal = new Meal
                 {
-                    Id = id,
+                    Api_Id = api_id,
                     FoodName = (string?)foodItem["description"],
                     BrandName = (string?)foodItem["brandName"],
                     Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Energy")["amount"],

@@ -10,12 +10,13 @@
 	</div>
 	<div class="card-body">
 		<form method="post" class="row">
+			<input asp-for="Api_Id" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="form-floating py-2 col-2">
 				<input asp-for="FoodName" class="form-control border-0 shadow" readonly />
 				<label asp-for="FoodName" class="ms-2"></label>
 			</div>
-			@if (Model.BrandName!=null)
+			@if (Model.BrandName != null)
 			{
 				<div class="form-floating py-2 col-4">
 					<input asp-for="BrandName" class="form-control border-0 shadow" readonly />
@@ -23,11 +24,11 @@
 				</div>
 			}
 			@* <div class="form-floating py-2 col-2">
-				<select asp-for="" asp-items="@Model." class="form-select border-0 shadow">
-					<option disabled selected>--Select Meal Time--</option>
-				</select>
-				<label asp-for="" class="ms-2"></label>
-				<span asp-validation-for="" class="text-danger"></span>
+			<select asp-for="" asp-items="@Model." class="form-select border-0 shadow">
+			<option disabled selected>--Select Meal Time--</option>
+			</select>
+			<label asp-for="" class="ms-2"></label>
+			<span asp-validation-for="" class="text-danger"></span>
 			</div> *@
 			<div class="form-floating py-2 col-4">
 				<input id="calories" asp-for="Calories" class="form-control border-0 shadow" readonly />
@@ -60,6 +61,9 @@
 				<label asp-for="MealTime" class="ms-2"></label>
 				<span asp-validation-for="MealTime" class="text-danger"></span>
 			</div>
+			<div class="form-floating py-2 col-4">
+				<canvas id="nutritionchart"></canvas>
+			</div>
 			<div class="row pt-2">
 				<div class="col-6 col-md-3">
 					<button type="submit" class="btn btn-primary form-control">Add Food</button>
@@ -76,12 +80,36 @@
 
 @section Scripts {
 	<script>
+		let nutritionchart = new Chart("nutritionchart", {
+			type: 'pie',
+			data: {
+				labels: [
+					'Carbohydrates',
+					'Fats',
+					'Proteins'
+				],
+				datasets: [{
+					label: 'Amount',
+					data: [document.getElementById('carbohydrates').value, document.getElementById('fat').value, document.getElementById('protein').value],
+					backgroundColor: [
+						'rgb(255, 159, 64)',
+						'rgb(255, 99, 132)',
+						'rgb(54, 162, 235)'
+					]
+				}]
+			}
+		});
+
 		document.getElementById('servings').addEventListener('change', function () {
 			let servings = document.getElementById('servings').value;
 			document.getElementById('calories').value = servings * @Model.Calories;
 			document.getElementById('carbohydrates').value = servings * @Model.Carbohydrates;
 			document.getElementById('protein').value = servings * @Model.Protein;
 			document.getElementById('fat').value = servings * @Model.Fat;
+			nutritionchart.data.datasets[0].data[0] = document.getElementById('carbohydrates').value;
+			nutritionchart.data.datasets[0].data[1] = document.getElementById('fat').value;
+			nutritionchart.data.datasets[0].data[2] = document.getElementById('protein').value;
+			nutritionchart.update();
 		});
 	</script>
 	@{

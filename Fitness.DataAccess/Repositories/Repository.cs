@@ -13,11 +13,11 @@ namespace Fitness.DataAccess.Repositories
 	public class Repository<T> : IRepository<T> where T : class
 	{
 		private readonly ApplicationDbContext _db;
-		internal DbSet<T> dbSet;
+		private readonly DbSet<T> dbSet;
 		public Repository(ApplicationDbContext db)
 		{
 			_db = db;
-			this.dbSet = _db.Set<T>();
+			dbSet = _db.Set<T>();
 		}
 		public void Add(T item)
 		{
@@ -33,8 +33,7 @@ namespace Fitness.DataAccess.Repositories
 
 		public IEnumerable<T> GetAll()
 		{
-			IQueryable<T> query = dbSet;
-			return query.ToList();
+			return dbSet.ToList();
 		}
 
 		public void Remove(T item)

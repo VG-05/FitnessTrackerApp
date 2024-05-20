@@ -21,7 +21,7 @@ namespace Fitness.DataAccess.Repositories
 			_db = db;
 			BodyWeight = new BodyWeightRepository(_db);
 			Goal = new GoalRepository(_db);
-
+			Meals = new MealRepository(_db);
 		}
 		public void Save()
 		{
