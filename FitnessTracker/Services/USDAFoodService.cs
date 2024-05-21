@@ -25,7 +25,7 @@ namespace FitnessTracker.Services
         }
         public async Task<JObject> GetFoodDataByIdAsync(int id)
         {
-			HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/food/{id}?api_key={_apiKey}&nutrients=203,204,205,208&format=abridged");
+			HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/food/{id}?api_key={_apiKey}&nutrients=203,204,205,208&format=full");
             response.EnsureSuccessStatusCode();
 
             string data = await response.Content.ReadAsStringAsync();

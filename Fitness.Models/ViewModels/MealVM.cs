@@ -33,16 +33,5 @@ namespace Fitness.Models.ViewModels
                 Text = "Dinner"
             }
         };
-
-		public List<SelectListItem>? ServingOptions { get; set; }
-
-		/*public List<SelectListItem>? ServingOptions { get; set; } = Meal.ServingSizes.ForEach((serving) =>
-        {
-            new SelectListItem
-            {
-                Text = $"{serving.ServingName} ({serving.ServingAmount} {serving.ServingUnit})",
-                Value = serving.ServingName
-            };
-        });*/
 	}
 }

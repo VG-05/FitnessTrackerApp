@@ -10,11 +10,11 @@ using Newtonsoft.Json.Linq;
 
 namespace FitnessTracker.Controllers
 {
-    public class MealsController : Controller
+    public class MealController : Controller
     {
         private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
-        public MealsController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
+        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
@@ -37,7 +37,8 @@ namespace FitnessTracker.Controllers
             {
                 Api_Id = (int)food["fdcId"],
                 FoodName = (string?)food["description"],
-                BrandName = (string?)food["brandName"]
+                BrandName = (string?)food["brandName"],
+                Calories = (int)food["foodNutrients"].FirstOrDefault(n => n["nutrientName"].Value<string>() == "Energy")["value"]
             }).ToList();
             return View(mealsVM);
         }
@@ -55,13 +56,15 @@ namespace FitnessTracker.Controllers
                     {
                         Api_Id = api_id,
                         FoodName = (string?)foodItem["description"],
-                        BrandName = (string?)foodItem["brandOwner"],
-                        Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Energy")["amount"],
-                        Carbohydrates = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Carbohydrate, by difference")["amount"],
-                        Protein = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Protein")["amount"],
-                        Fat = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Total lipid (fat)")["amount"],
+                        BrandName = (string?)foodItem["brandName"],
+                        Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Energy")["amount"],
+                        Carbohydrates = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Carbohydrate, by difference")["amount"],
+                        Protein = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Protein")["amount"],
+                        Fat = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Total lipid (fat)")["amount"],
                         Date = DateOnly.FromDateTime(DateTime.Now),
-                        ServingSize = 1
+                        Servings = 1,
+                        ServingSizeAmount = (double?)foodItem["servingSize"],
+                        ServingSizeUnit = (string?)foodItem["servingSizeUnit"]
                     }
                 };
 

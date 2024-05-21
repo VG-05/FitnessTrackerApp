@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fitness.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513131934_ChangeWeightAndTargetWeightToDouble")]
-    partial class ChangeWeightAndTargetWeightToDouble
+    [Migration("20240521144035_CreateAndSeedTables")]
+    partial class CreateAndSeedTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,73 @@ namespace Fitness.DataAccess.Migrations
                             TargetDate = new DateTime(2020, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TargetWeight = 50.0,
                             Unit = "kgs"
+                        });
+                });
+
+            modelBuilder.Entity("Fitness.Models.Meal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Api_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BrandName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Carbohydrates")
+                        .HasColumnType("float");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<double?>("Fat")
+                        .HasColumnType("float");
+
+                    b.Property<string>("FoodName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MealTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Protein")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("ServingSizeAmount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ServingSizeUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Servings")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Meals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Api_Id = 534358,
+                            BrandName = "Test Brand inc.",
+                            Calories = 110.5,
+                            Carbohydrates = 15.6,
+                            Date = new DateOnly(2024, 5, 21),
+                            Fat = 9.0,
+                            FoodName = "Test",
+                            MealTime = "Breakfast",
+                            Protein = 2.0,
+                            ServingSizeAmount = 53.0,
+                            ServingSizeUnit = "g",
+                            Servings = 1.0
                         });
                 });
 #pragma warning restore 612, 618

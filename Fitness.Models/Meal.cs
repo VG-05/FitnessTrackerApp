@@ -14,7 +14,10 @@ namespace Fitness.Models
         public int Id { get; set; }
         public int Api_Id { get; set; }
         public string? FoodName { get; set; } = string.Empty;
-        public double? ServingSize { get; set; }
+		public string? BrandName { get; set; } = string.Empty;
+		public double? Servings { get; set; }
+        public double? ServingSizeAmount { get; set; }
+        public string? ServingSizeUnit { get; set; }
         public double? Calories { get; set; }
         public double? Carbohydrates { get; set; }
         public double? Protein { get; set; }
@@ -22,6 +25,5 @@ namespace Fitness.Models
         [AllowedValues("Breakfast", "Lunch", "Snacks", "Dinner")]
         public string? MealTime { get; set; } = string.Empty;         // "Breakfast", "Lunch", "Dinner", "Snacks"
         public DateOnly Date { get; set; }
-        public string? BrandName { get; set; } = string.Empty;
     }
 }

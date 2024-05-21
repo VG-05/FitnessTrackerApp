@@ -135,7 +135,13 @@ namespace Fitness.DataAccess.Migrations
                     b.Property<double?>("Protein")
                         .HasColumnType("float");
 
-                    b.Property<double?>("ServingSize")
+                    b.Property<double?>("ServingSizeAmount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ServingSizeUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Servings")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -147,15 +153,17 @@ namespace Fitness.DataAccess.Migrations
                         {
                             Id = 1,
                             Api_Id = 534358,
-                            BrandName = "",
+                            BrandName = "Test Brand inc.",
                             Calories = 110.5,
                             Carbohydrates = 15.6,
-                            Date = new DateOnly(2024, 5, 20),
+                            Date = new DateOnly(2024, 5, 21),
                             Fat = 9.0,
                             FoodName = "Test",
                             MealTime = "Breakfast",
                             Protein = 2.0,
-                            ServingSize = 11.0
+                            ServingSizeAmount = 53.0,
+                            ServingSizeUnit = "g",
+                            Servings = 1.0
                         });
                 });
 #pragma warning restore 612, 618
