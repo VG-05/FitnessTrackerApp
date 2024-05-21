@@ -4,6 +4,7 @@ using Fitness.Models.ViewModels;
 using FitnessTracker.Services;
 using FitnessTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
@@ -48,65 +49,74 @@ namespace FitnessTracker.Controllers
             JObject foodItem = await _usdaFoodService.GetFoodDataByIdAsync(api_id);
             if (foodItem != null)
             {
-                Meal meal = new Meal
+                MealVM mealVM = new()
                 {
-                    Api_Id = api_id,
-                    FoodName = (string?)foodItem["description"],
-                    BrandName = (string?)foodItem["brandName"],
-                    Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Energy")["amount"],
-                    Carbohydrates = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Carbohydrate, by difference")["amount"],
-                    Protein = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Protein")["amount"],
-                    Fat = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Total lipid (fat)")["amount"],
-                    Date = DateOnly.FromDateTime(DateTime.Now),
-                    MealTime = "Breakfast"
+                    Meal = new Meal
+                    {
+                        Api_Id = api_id,
+                        FoodName = (string?)foodItem["description"],
+                        BrandName = (string?)foodItem["brandOwner"],
+                        Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Energy")["amount"],
+                        Carbohydrates = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Carbohydrate, by difference")["amount"],
+                        Protein = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Protein")["amount"],
+                        Fat = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["name"].Value<string>() == "Total lipid (fat)")["amount"],
+                        Date = DateOnly.FromDateTime(DateTime.Now),
+                        ServingSize = 1
+                    }
                 };
 
-                return View(meal);
+                return View(mealVM);
             }
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Add(Meal meal)
+        public IActionResult Add(MealVM mealVM)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Meals.Add(meal);
+                _unitOfWork.Meals.Add(mealVM.Meal);
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            return View(meal.Id);
+            return View(mealVM.Meal.Id);
         }
 
 
         public IActionResult Edit(int id)
         {
-            Meal meal = _unitOfWork.Meals.Get(u=> u.Id == id);
-            if (meal!=null)
+            MealVM mealVM = new MealVM
             {
-                return View(meal);
+                Meal = _unitOfWork.Meals.Get(u => u.Id == id)
+            };
+            if (mealVM.Meal!=null)
+            {
+                return View(mealVM);
             }
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Edit(Meal meal)
+        public IActionResult Edit(MealVM mealVM)
         {
             if (ModelState.IsValid)
             {
-				_unitOfWork.Meals.Update(meal);
+				_unitOfWork.Meals.Update(mealVM.Meal);
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
 			}
-            return View(meal.Id);
+            return View(mealVM.Meal.Id);
         }
 
 		public IActionResult Delete(int id)
 		{
-			Meal meal = _unitOfWork.Meals.Get(u => u.Id == id);
-			if (meal != null)
+            MealVM mealVM = new()
+            {
+                Meal = _unitOfWork.Meals.Get(u => u.Id == id)
+            };
+			if (mealVM.Meal != null)
 			{
-				return View(meal);
+				return View(mealVM);
 			}
 			return NotFound();
 		}

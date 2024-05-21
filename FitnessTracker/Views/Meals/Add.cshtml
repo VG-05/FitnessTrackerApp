@@ -1,4 +1,4 @@
-﻿@model Meal
+﻿@model MealVM
 
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-primary bg-gradient m-lg-0 py-3">
@@ -10,59 +10,64 @@
 	</div>
 	<div class="card-body">
 		<form method="post" class="row">
-			<input asp-for="Api_Id" hidden />
+			<input asp-for="@Model.Meal.Api_Id" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
-			<div class="form-floating py-2 col-2">
-				<input asp-for="FoodName" class="form-control border-0 shadow" readonly />
-				<label asp-for="FoodName" class="ms-2"></label>
-			</div>
-			@if (Model.BrandName != null)
-			{
+			<div class="row">
+				<div class="form-floating py-2 col-8">
+					<input asp-for="@Model.Meal.FoodName" class="form-control border-0 shadow" readonly />
+					<label asp-for="@Model.Meal.FoodName" class="ms-2"></label>
+				</div>
 				<div class="form-floating py-2 col-4">
-					<input asp-for="BrandName" class="form-control border-0 shadow" readonly />
-					<label asp-for="BrandName" class="ms-2"></label>
+					<input id="servings" asp-for="@Model.Meal.ServingSize" class="form-control border-0 shadow" />
+					<label asp-for="@Model.Meal.ServingSize"></label>
+					<span asp-validation-for="@Model.Meal.ServingSize" class="text-danger"></span>
+				</div>
+			</div>
+			@if (Model.Meal.BrandName != null)
+			{
+				<div class="row">
+					<div class="form-floating py-2 col-8">
+						<input asp-for="@Model.Meal.BrandName" class="form-control border-0 shadow" readonly />
+						<label asp-for="@Model.Meal.BrandName"></label>
+					</div>
 				</div>
 			}
-			@* <div class="form-floating py-2 col-2">
-			<select asp-for="" asp-items="@Model." class="form-select border-0 shadow">
-			<option disabled selected>--Select Meal Time--</option>
-			</select>
-			<label asp-for="" class="ms-2"></label>
-			<span asp-validation-for="" class="text-danger"></span>
-			</div> *@
+			<div class="row">
+				<div class="form-floating py-2 col-2">
+					<input type="date" asp-for="@Model.Meal.Date" class="form-control border-0 shadow" />
+					<label asp-for="@Model.Meal.Date" class="ms-2"></label>
+					<span asp-validation-for="@Model.Meal.Date" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-2 col-3">
+					<select asp-for="@Model.Meal.MealTime" asp-items="@Model.MealTimes" class="form-select border-0 shadow">
+						<option selected>--Select meal of the day--</option>
+					</select>
+					<label asp-for="@Model.Meal.MealTime" class="ms-2"></label>
+					<span asp-validation-for="@Model.Meal.MealTime" class="text-danger"></span>
+				</div>
+				<div class="col-1">
+
+				</div>
+				<div class="col-4 align-self-end">
+					<canvas id="nutritionchart"></canvas>
+				</div>
+			</div>
+			
 			<div class="form-floating py-2 col-4">
-				<input id="calories" asp-for="Calories" class="form-control border-0 shadow" readonly />
-				<label asp-for="Calories" class="ms-2"></label>
+				<input id="calories" asp-for="@Model.Meal.Calories" class="form-control border-0 shadow" readonly />
+				<label asp-for="@Model.Meal.Calories" class="ms-2"></label>
 			</div>
 			<div class="form-floating py-2 col-4">
-				<input id="carbohydrates" asp-for="Carbohydrates" class="form-control border-0 shadow" readonly />
-				<label asp-for="Carbohydrates" class="ms-2"></label>
+				<input id="carbohydrates" asp-for="@Model.Meal.Carbohydrates" class="form-control border-0 shadow" readonly />
+				<label asp-for="@Model.Meal.Carbohydrates" class="ms-2"></label>
 			</div>
 			<div class="form-floating py-2 col-4">
-				<input id="protein" asp-for="Protein" class="form-control border-0 shadow" readonly />
-				<label asp-for="Protein" class="ms-2"></label>
+				<input id="protein" asp-for="@Model.Meal.Protein" class="form-control border-0 shadow" readonly />
+				<label asp-for="@Model.Meal.Protein" class="ms-2"></label>
 			</div>
 			<div class="form-floating py-2 col-4">
-				<input id="fat" asp-for="Fat" class="form-control border-0 shadow" readonly />
-				<label asp-for="Fat" class="ms-2"></label>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input id="servings" asp-for="ServingSize" class="form-control border-0 shadow" />
-				<label asp-for="ServingSize" class="ms-2"></label>
-				<span asp-validation-for="ServingSize" class="text-danger"></span>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input asp-for="Date" class="form-control border-0 shadow" />
-				<label asp-for="Date" class="ms-2"></label>
-				<span asp-validation-for="Date" class="text-danger"></span>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input asp-for="MealTime" class="form-control border-0 shadow" />
-				<label asp-for="MealTime" class="ms-2"></label>
-				<span asp-validation-for="MealTime" class="text-danger"></span>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<canvas id="nutritionchart"></canvas>
+				<input id="fat" asp-for="@Model.Meal.Fat" class="form-control border-0 shadow" readonly />
+				<label asp-for="@Model.Meal.Fat" class="ms-2"></label>
 			</div>
 			<div class="row pt-2">
 				<div class="col-6 col-md-3">
@@ -102,10 +107,10 @@
 
 		document.getElementById('servings').addEventListener('change', function () {
 			let servings = document.getElementById('servings').value;
-			document.getElementById('calories').value = servings * @Model.Calories;
-			document.getElementById('carbohydrates').value = servings * @Model.Carbohydrates;
-			document.getElementById('protein').value = servings * @Model.Protein;
-			document.getElementById('fat').value = servings * @Model.Fat;
+			document.getElementById('calories').value = servings * @Model.Meal.Calories;
+			document.getElementById('carbohydrates').value = servings * @Model.Meal.Carbohydrates;
+			document.getElementById('protein').value = servings * @Model.Meal.Protein;
+			document.getElementById('fat').value = servings * @Model.Meal.Fat;
 			nutritionchart.data.datasets[0].data[0] = document.getElementById('carbohydrates').value;
 			nutritionchart.data.datasets[0].data[1] = document.getElementById('fat').value;
 			nutritionchart.data.datasets[0].data[2] = document.getElementById('protein').value;
