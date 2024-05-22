@@ -15,66 +15,68 @@
 			<input asp-for="@Model.Meal.ServingSizeUnit" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="row">
-				<div class="form-floating py-2 col-8">
+				<div class="form-floating mb-3 col-8">
 					<input asp-for="@Model.Meal.FoodName" class="form-control border-0 shadow" readonly />
 					<label asp-for="@Model.Meal.FoodName" class="ms-2"></label>
 				</div>
-				<div class="form-floating py-2 col-4">
+				<div class="form-floating mb-3 col-4">
 					<input id="servings" asp-for="@Model.Meal.Servings" class="form-control border-0 shadow" />
 					@if (Model.Meal.ServingSizeAmount != null) {
-						<label asp-for="@Model.Meal.Servings"> Servings (@Model.Meal.ServingSizeAmount @Model.Meal.ServingSizeUnit) </label>
+						<label asp-for="@Model.Meal.Servings" class="ms-2"> No. of Servings (@Model.Meal.ServingSizeAmount @Model.Meal.ServingSizeUnit) </label>
 					}
 					else {
-					<label asp-for="@Model.Meal.Servings"></label>
+						<label asp-for="@Model.Meal.Servings" class="ms-2">No. of Servings</label>
 					}
-					
 					<span asp-validation-for="@Model.Meal.Servings" class="text-danger"></span>
 				</div>
 			</div>
 			@if (Model.Meal.BrandName != null)
 			{
 				<div class="row">
-					<div class="form-floating py-2 col-8">
+					<div class="form-floating mb-3 col-8">
 						<input asp-for="@Model.Meal.BrandName" class="form-control border-0 shadow" readonly />
-						<label asp-for="@Model.Meal.BrandName"></label>
+						<label asp-for="@Model.Meal.BrandName" class="ms-2"></label>
 					</div>
 				</div>
 			}
-			<div class="row">
-				<div class="form-floating py-2 col-2">
+			<div class="row d-flex flex-sm-row">
+				<div class="form-floating mb-3 col-2">
 					<input type="date" asp-for="@Model.Meal.Date" class="form-control border-0 shadow" />
 					<label asp-for="@Model.Meal.Date" class="ms-2"></label>
 					<span asp-validation-for="@Model.Meal.Date" class="text-danger"></span>
 				</div>
-				<div class="form-floating py-2 col-3">
+				<div class="form-floating mb-3 col-2">
 					<select asp-for="@Model.Meal.MealTime" asp-items="@Model.MealTimes" class="form-select border-0 shadow">
 					</select>
 					<label asp-for="@Model.Meal.MealTime" class="ms-2"></label>
 					<span asp-validation-for="@Model.Meal.MealTime" class="text-danger"></span>
 				</div>
-				<div class="col-1">
+				<div class="col-4">
 
 				</div>
-				<div class="col-4 align-self-end">
-					<canvas id="nutritionchart"></canvas>
+				<div class="col-4 d-flex flex-column mb-3" style="height:50vh">
+					<div class="mb-3">
+						<canvas id="nutritionchart"></canvas>
+					</div>
+					<div class="d-flex flex-shrink-1 flex-row mb-3 justify-content-evenly">
+						<div class="d-flex flex-column align-items-center border flex-fill">
+							<label asp-for="@Model.Meal.Calories" class="h5 border-bottom"></label>
+							<input id="calories" asp-for="@Model.Meal.Calories" class="m-0 p-0 form-control border-0 text-center" readonly />
+						</div>
+						<div class="d-flex flex-column align-items-center border flex-fill">
+							<label asp-for="@Model.Meal.Carbohydrates" class="h5 border-bottom px-1"></label>
+							<input id="carbohydrates" asp-for="@Model.Meal.Carbohydrates" class="m-0 p-0 form-control border-0 text-center" readonly />
+						</div>
+						<div class="d-flex flex-column align-items-center border flex-fill">
+							<label asp-for="@Model.Meal.Protein" class="h5 border-bottom"></label>
+							<input id="protein" asp-for="@Model.Meal.Protein" class="m-0 p-0 form-control border-0 text-center" readonly />
+						</div>
+						<div class="d-flex flex-column align-items-center border flex-fill">
+							<label asp-for="@Model.Meal.Fat" class="h5 border-bottom"></label>
+							<input id="fat" asp-for="@Model.Meal.Fat" class="m-0 p-0 form-control border-0 text-center" readonly />
+						</div>
+					</div>
 				</div>
-			</div>
-			
-			<div class="form-floating py-2 col-4">
-				<input id="calories" asp-for="@Model.Meal.Calories" class="form-control border-0 shadow" readonly />
-				<label asp-for="@Model.Meal.Calories" class="ms-2"></label>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input id="carbohydrates" asp-for="@Model.Meal.Carbohydrates" class="form-control border-0 shadow" readonly />
-				<label asp-for="@Model.Meal.Carbohydrates" class="ms-2"></label>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input id="protein" asp-for="@Model.Meal.Protein" class="form-control border-0 shadow" readonly />
-				<label asp-for="@Model.Meal.Protein" class="ms-2"></label>
-			</div>
-			<div class="form-floating py-2 col-4">
-				<input id="fat" asp-for="@Model.Meal.Fat" class="form-control border-0 shadow" readonly />
-				<label asp-for="@Model.Meal.Fat" class="ms-2"></label>
 			</div>
 			<div class="row pt-2">
 				<div class="col-6 col-md-3">
@@ -97,16 +99,16 @@
 			data: {
 				labels: [
 					'Carbohydrates',
-					'Fats',
-					'Proteins'
+					'Protein',
+					'Fat'
 				],
 				datasets: [{
 					label: 'Amount',
-					data: [document.getElementById('carbohydrates').value, document.getElementById('fat').value, document.getElementById('protein').value],
+					data: [document.getElementById('carbohydrates').value, document.getElementById('protein').value, document.getElementById('fat').value],
 					backgroundColor: [
 						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)'
+						'rgb(54, 162, 235)',
+						'rgb(255, 99, 132)'
 					]
 				}]
 			}
@@ -119,8 +121,8 @@
 			document.getElementById('protein').value = servings * @Model.Meal.Protein;
 			document.getElementById('fat').value = servings * @Model.Meal.Fat;
 			nutritionchart.data.datasets[0].data[0] = document.getElementById('carbohydrates').value;
-			nutritionchart.data.datasets[0].data[1] = document.getElementById('fat').value;
-			nutritionchart.data.datasets[0].data[2] = document.getElementById('protein').value;
+			nutritionchart.data.datasets[0].data[1] = document.getElementById('protein').value;
+			nutritionchart.data.datasets[0].data[2] = document.getElementById('fat').value;
 			nutritionchart.update();
 		});
 	</script>
