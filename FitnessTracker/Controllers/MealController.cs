@@ -1,11 +1,8 @@
 ﻿using Fitness.DataAccess.Repositories.Interfaces;
 using Fitness.Models;
 using Fitness.Models.ViewModels;
-using FitnessTracker.Services;
 using FitnessTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
 namespace FitnessTracker.Controllers
@@ -22,7 +19,30 @@ namespace FitnessTracker.Controllers
         public IActionResult Index()
         {
             List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
-            return View(Meals);
+            var query = Meals.GroupBy(meal => meal.Date);
+
+            List<Meal> TodayMeals = new();
+            foreach (var group in query)
+            {
+                if (group.Key == DateOnly.FromDateTime(DateTime.Now))
+                {
+                    foreach(Meal meal in group)
+                    {
+                        TodayMeals.Add(meal);
+                    }
+                }
+            }
+
+            Dictionary<string, int> mealOrder = new()
+            {
+                {"Breakfast", 0 },
+                {"Lunch", 1 },
+                {"Snacks", 2 },
+                {"Dinner", 3 }
+            };
+
+            TodayMeals.Sort((x, y) => mealOrder[x.MealTime].CompareTo(mealOrder[y.MealTime]));
+			return View(TodayMeals);
         }
 
         [ActionName("Search")]
