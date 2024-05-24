@@ -24,11 +24,17 @@ namespace Fitness.DataAccess.Repositories
 			dbSet.Add(item);
 		}
 
-		public T Get(Expression<Func<T, bool>> predicate)
+		public T? Get(Expression<Func<T, bool>> predicate)
 		{
 			IQueryable<T> query = dbSet;
 			query = query.Where(predicate);
 			return query.FirstOrDefault();
+		}
+
+		public IEnumerable<T> GetSome(Expression<Func<T, bool>> predicate)
+		{
+			IQueryable<T> query = dbSet;
+			return query.Where(predicate);
 		}
 
 		public IEnumerable<T> GetAll()

@@ -10,7 +10,8 @@ namespace Fitness.DataAccess.Repositories.Interfaces
 	public interface IRepository<T> where T : class
 	{
 		IEnumerable<T> GetAll();
-		T Get(Expression<Func<T, bool>> predicate);
+		T? Get(Expression<Func<T, bool>> predicate);
+		IEnumerable<T> GetSome(Expression<Func<T, bool>> predicate);
 		void Add(T item);
 		void Remove(T item);
 	}

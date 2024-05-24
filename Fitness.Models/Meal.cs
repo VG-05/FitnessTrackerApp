@@ -27,7 +27,7 @@ namespace Fitness.Models
         public double? Fat { get; set; }
         [AllowedValues("Breakfast", "Lunch", "Snacks", "Dinner")]
 		[DisplayName("Meal Time")]
-		public string? MealTime { get; set; } = string.Empty;         // "Breakfast", "Lunch", "Dinner", "Snacks"
+		public string MealTime { get; set; } = "Breakfast";         // "Breakfast", "Lunch", "Dinner", "Snacks"
         public DateOnly Date { get; set; }
     }
 }

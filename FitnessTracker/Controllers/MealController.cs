@@ -4,6 +4,7 @@ using Fitness.Models.ViewModels;
 using FitnessTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
 
 namespace FitnessTracker.Controllers
 {
@@ -19,30 +20,21 @@ namespace FitnessTracker.Controllers
         public IActionResult Index()
         {
             List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
-            var query = Meals.GroupBy(meal => meal.Date);
+			return View(Meals);
+        }
 
-            List<Meal> TodayMeals = new();
-            foreach (var group in query)
-            {
-                if (group.Key == DateOnly.FromDateTime(DateTime.Now))
-                {
-                    foreach(Meal meal in group)
-                    {
-                        TodayMeals.Add(meal);
-                    }
-                }
-            }
+        public IActionResult Details(DayMealVM dayMealVM)
+        {
+		    List<Meal> dayMeals = _unitOfWork.Meals.GetSome(u => u.Date == dayMealVM.Date).ToList();
+			Dictionary<string, List<Meal>> dayMealsDict = dayMeals.GroupBy(o => o.MealTime)
+				                                                  .ToDictionary(g => g.Key, g => g.ToList());
 
-            Dictionary<string, int> mealOrder = new()
-            {
-                {"Breakfast", 0 },
-                {"Lunch", 1 },
-                {"Snacks", 2 },
-                {"Dinner", 3 }
-            };
+            dayMealVM.Breakfast = dayMealsDict.GetValueOrDefault("Breakfast", []);
+			dayMealVM.Lunch = dayMealsDict.GetValueOrDefault("Lunch", []);
+			dayMealVM.Snacks = dayMealsDict.GetValueOrDefault("Snacks", []);
+			dayMealVM.Dinner = dayMealsDict.GetValueOrDefault("Dinner", []);
 
-            TodayMeals.Sort((x, y) => mealOrder[x.MealTime].CompareTo(mealOrder[y.MealTime]));
-			return View(TodayMeals);
+			return View(dayMealVM);
         }
 
         [ActionName("Search")]
@@ -53,13 +45,14 @@ namespace FitnessTracker.Controllers
                 return View();
             }
             JObject foodData = await _usdaFoodService.GetFoodDataAsync(mealsVM.SearchString);
-            mealsVM.Meals = foodData["foods"].Select(food => new Meal
-            {
-                Api_Id = (int)food["fdcId"],
-                FoodName = (string?)food["description"],
-                BrandName = (string?)food["brandName"],
-                Calories = (int)food["foodNutrients"].FirstOrDefault(n => n["nutrientName"].Value<string>() == "Energy")["value"]
-            }).ToList();
+
+			mealsVM.Meals = foodData["foods"].Select(food => new Meal
+			{
+				Api_Id = (int)food["fdcId"],
+				FoodName = (string?)food["description"],
+				BrandName = (string?)food["brandName"],
+				Calories = (int)food["foodNutrients"].FirstOrDefault(n => n["nutrientName"].Value<string>() == "Energy")["value"]
+			}).ToList();
             return View(mealsVM);
         }
 
@@ -108,15 +101,18 @@ namespace FitnessTracker.Controllers
 
         public IActionResult Edit(int id)
         {
-            MealVM mealVM = new MealVM
+            Meal? mealToEdit = _unitOfWork.Meals.Get(u => u.Id == id);
+
+            if (mealToEdit == null)
             {
-                Meal = _unitOfWork.Meals.Get(u => u.Id == id)
-            };
-            if (mealVM.Meal!=null)
-            {
-                return View(mealVM);
+                return NotFound();
             }
-            return NotFound();
+
+			MealVM mealVM = new MealVM
+            {
+                Meal = mealToEdit
+            };
+            return View(mealVM);
         }
 
         [HttpPost]
@@ -133,22 +129,25 @@ namespace FitnessTracker.Controllers
 
 		public IActionResult Delete(int id)
 		{
-            MealVM mealVM = new()
+            Meal? mealToDelete = _unitOfWork.Meals.Get(u => u.Id == id);
+
+            if (mealToDelete==null)
             {
-                Meal = _unitOfWork.Meals.Get(u => u.Id == id)
+                return NotFound();
+            }
+
+			MealVM mealVM = new()
+            {
+                Meal = mealToDelete
             };
-			if (mealVM.Meal != null)
-			{
-				return View(mealVM);
-			}
-			return NotFound();
+			return View(mealVM);
 		}
 
         [ActionName("Delete")]
 		[HttpPost]
 		public IActionResult DeletePOST(int id)
 		{
-			Meal meal = _unitOfWork.Meals.Get(u => u.Id == id);
+			Meal? meal = _unitOfWork.Meals.Get(u => u.Id == id);
 			if (meal != null)
 			{
 				_unitOfWork.Meals.Remove(meal);

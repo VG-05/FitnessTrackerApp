@@ -4,77 +4,22 @@
 	<div class="card-header bg-primary bg-gradient m-lg-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">All Meal Logs</h2>
+				<h2 class="text-white py-2">Nutrition Progress</h2>
 			</div>
 		</div>
 	</div>
 	<div class="card-body p-4">
-		<div class="row justify-content-between pb-3">
-			<div class="col-12">
+		<div class="row d-flex justify-content-between pb-3">
+			<div class="col">
 				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
 					<i class="bi bi-calendar-plus"></i> Log Food
 				</a>
 			</div>
-		</div>
-		@if (Model.Any())
-		{
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>
-							Meal Time
-						</th>
-						<th>
-							Meal
-						</th>
-						<th>
-							Servings
-						</th>
-						<th>
-							Date Logged
-						</th>
-						<th>
-
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var obj in Model)
-					{
-						<tr>
-							<td>
-								@obj.MealTime
-							</td>
-							<td>
-								@obj.FoodName
-							</td>
-							<td>
-								@obj.Servings
-							</td>
-							<td>
-								@obj.Date
-							</td>
-							<td>
-								<div class="w-75 btn-group" role="group">
-									<a asp-controller="Meal" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-										<i class="bi bi-pencil-square"></i> Edit
-									</a>
-									<a asp-controller="Meal" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-										<i class="bi bi-trash-fill"></i> Delete
-									</a>
-								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		}
-		else
-		{
-			<div class="text-center">
-				No Meals Added
+			<div class="col text-end">
+				<a asp-controller="Meal" asp-action="Details" class="btn btn-primary">
+					<i class="bi bi-list-task"></i> See Meals
+				</a>
 			</div>
-		}
-	</div>
+		</div>
+	</<div>
 </div>
-
