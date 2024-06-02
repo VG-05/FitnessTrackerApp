@@ -12,16 +12,40 @@ namespace FitnessTracker.Controllers
     {
         private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
-        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
+        private readonly IFitnessCalculatorService _fitnessCalculatorService;
+        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork, IFitnessCalculatorService fitnessCalculatorService)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
+            _fitnessCalculatorService = fitnessCalculatorService;
         }
         public IActionResult Index()
         {
             List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
 			return View(Meals);
         }
+
+
+        public IActionResult AddGoal()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddGoal(UserDetailsVM userDetailsVM)
+        {
+			JObject? data = await _fitnessCalculatorService.GetNutritionInfoAsync(userDetailsVM.Age, userDetailsVM.Sex, userDetailsVM.Height, userDetailsVM.Weight, userDetailsVM.ActivityLevel);
+			if (data == null)
+			{
+				return NotFound();
+			}
+			string? caloriesDesc = (string?)data["BMI_EER"]["Estimated Daily Caloric Needs"];
+			string? carbsDesc = (string?)data["macronutrients_table"]["macronutrients-table"][1][1];
+			string? proteinDesc = (string?)data["macronutrients_table"]["macronutrients-table"][3][1];
+			string? fatsDesc = (string?)data["macronutrients_table"]["macronutrients-table"][4][1];
+
+            return View();
+		}
 
         public IActionResult Details(DayMealVM dayMealVM)
         {

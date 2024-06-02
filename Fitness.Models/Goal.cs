@@ -15,7 +15,7 @@ namespace Fitness.Models
         public double TargetWeight { get; set; }
         [AllowedValues(["kgs", "lbs"], ErrorMessage = "Please enter one of 'kgs' or 'lbs'.")]
         [Required]
-        public string Unit { get; set; }
+        public string Unit { get; set; } = string.Empty;
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime TargetDate { get; set; }
     }

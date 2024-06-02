@@ -16,6 +16,12 @@ builder.Services.AddHttpClient("nutritionapi", client =>
 	client.BaseAddress = new Uri("https://api.nal.usda.gov/fdc/v1");
 });
 builder.Services.AddScoped<IUSDAFoodService, USDAFoodService>();
+builder.Services.AddHttpClient("caloriesapi", client =>
+{
+	client.BaseAddress = new Uri("https://nutrition-calculator.p.rapidapi.com/api");
+});
+builder.Services.AddScoped<IFitnessCalculatorService, FitnessCalculatorService>();
+
 
 var app = builder.Build();
 
