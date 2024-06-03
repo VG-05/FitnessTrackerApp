@@ -69,7 +69,7 @@ namespace FitnessTracker.Controllers
 				return NotFound();
 			}
 
-			BodyWeight bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
+			BodyWeight? bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
 			if (bodyWeightFromDb == null)
 			{
 				return NotFound();
@@ -105,7 +105,7 @@ namespace FitnessTracker.Controllers
 				return NotFound();
 			}
 
-			BodyWeight bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
+			BodyWeight? bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
 			if (bodyWeightFromDb == null)
 			{
 				return NotFound();
@@ -122,7 +122,7 @@ namespace FitnessTracker.Controllers
 			{
 				return NotFound();
 			}
-			BodyWeight bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
+			BodyWeight? bodyWeightFromDb = _unitOfWork.BodyWeight.Get(u => u.Id == id);
 			if (bodyWeightFromDb == null)
 			{
 				return NotFound();

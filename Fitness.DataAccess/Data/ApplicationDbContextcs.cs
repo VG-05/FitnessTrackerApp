@@ -1,9 +1,10 @@
 ﻿using Fitness.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fitness.DataAccess.Data
 {
-	public class ApplicationDbContext : DbContext
+	public class ApplicationDbContext : IdentityDbContext
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
@@ -16,7 +17,7 @@ namespace Fitness.DataAccess.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<BodyWeight>().HasData(
 				new BodyWeight { Id = 1, Weight = 80.0, Unit = "kgs", Date = new DateTime(2020, 1, 1) },
 				new BodyWeight { Id = 2, Weight = 75.0, Unit = "kgs", Date = new DateTime(2020, 1, 8) },

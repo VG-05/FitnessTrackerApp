@@ -69,7 +69,7 @@ namespace FitnessTracker.Controllers
                 return NotFound();
             }
 
-            Goal goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
+            Goal? goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
             if (goalFromDb == null)
             {
                 return NotFound();
@@ -105,7 +105,7 @@ namespace FitnessTracker.Controllers
                 return NotFound();
             }
 
-            Goal goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
+            Goal? goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
             if (goalFromDb == null)
             {
                 return NotFound();
@@ -122,7 +122,7 @@ namespace FitnessTracker.Controllers
             {
                 return NotFound();
             }
-            Goal goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
+            Goal? goalFromDb = _unitOfWork.Goal.Get(u => u.Id == id);
             if (goalFromDb == null)
             {
                 return NotFound();
