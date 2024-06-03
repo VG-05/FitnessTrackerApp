@@ -28,6 +28,6 @@ namespace Fitness.Models
         [AllowedValues("Breakfast", "Lunch", "Snacks", "Dinner")]
 		[DisplayName("Meal Time")]
 		public string MealTime { get; set; } = "Breakfast";         // "Breakfast", "Lunch", "Dinner", "Snacks"
-        public DateOnly Date { get; set; }
+        public DateOnly? Date { get; set; }
     }
 }

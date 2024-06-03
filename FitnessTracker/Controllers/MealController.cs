@@ -39,12 +39,13 @@ namespace FitnessTracker.Controllers
 			{
 				return NotFound();
 			}
-			string? caloriesDesc = (string?)data["BMI_EER"]["Estimated Daily Caloric Needs"];
-			string? carbsDesc = (string?)data["macronutrients_table"]["macronutrients-table"][1][1];
-			string? proteinDesc = (string?)data["macronutrients_table"]["macronutrients-table"][3][1];
-			string? fatsDesc = (string?)data["macronutrients_table"]["macronutrients-table"][4][1];
+			string? caloriesDesc = (string?)data.SelectToken("BMI_EER.Estimated Daily Caloric Needs");
+			string? carbsDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[1][1]");
+			string? proteinDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[3][1]");
+			string ? fatsDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[4][1]");
 
-            return View();
+
+			return View();
 		}
 
         public IActionResult Details(DayMealVM dayMealVM)
@@ -70,13 +71,13 @@ namespace FitnessTracker.Controllers
             }
             JObject foodData = await _usdaFoodService.GetFoodDataAsync(mealsVM.SearchString);
 
-			mealsVM.Meals = foodData["foods"].Select(food => new Meal
-			{
-				Api_Id = (int)food["fdcId"],
-				FoodName = (string?)food["description"],
-				BrandName = (string?)food["brandName"],
-				Calories = (int)food["foodNutrients"].FirstOrDefault(n => n["nutrientName"].Value<string>() == "Energy")["value"]
-			}).ToList();
+            mealsVM.Meals = (foodData.SelectToken("foods", false) ?? new JArray()).Select(food => new Meal
+            {
+                Api_Id = (int)(food.SelectToken("fdcId", true) ?? throw new ArgumentNullException()),
+                FoodName = (string?)food.SelectToken("description"),
+                BrandName = (string?)food.SelectToken("brandName"),
+                Calories = (double?)(food.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrientName") ?? "").Value<string>() == "Energy", new JObject()).SelectToken("value")
+            }).ToList();
             return View(mealsVM);
         }
 
@@ -92,13 +93,13 @@ namespace FitnessTracker.Controllers
                     Meal = new Meal
                     {
                         Api_Id = api_id,
-                        FoodName = (string?)foodItem["description"],
-                        BrandName = (string?)foodItem["brandName"],
-                        Calories = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Energy")["amount"],
-                        Carbohydrates = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Carbohydrate, by difference")["amount"],
-                        Protein = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Protein")["amount"],
-                        Fat = (double)foodItem["foodNutrients"].FirstOrDefault(n => n["nutrient"]["name"].Value<string>() == "Total lipid (fat)")["amount"],
-                        Date = DateOnly.FromDateTime(DateTime.Now),
+                        FoodName = (string?)foodItem.SelectToken("description"),
+                        BrandName = (string?)foodItem.SelectToken("brandName"),
+						Calories = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrientName") ?? "").Value<string>() == "Energy", new JObject()).SelectToken("amount"),
+                        Carbohydrates = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Carbohydrate, by difference", new JObject()).SelectToken("amount"),
+                        Protein = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Protein", new JObject()).SelectToken("amount"),
+						Fat = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Total lipid (fat)", new JObject()).SelectToken("amount"),
+						Date = DateOnly.FromDateTime(DateTime.Now),
                         Servings = 1,
                         ServingSizeAmount = (double?)foodItem["servingSize"],
                         ServingSizeUnit = (string?)foodItem["servingSizeUnit"]
