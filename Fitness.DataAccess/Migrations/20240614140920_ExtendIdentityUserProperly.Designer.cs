@@ -4,6 +4,7 @@ using Fitness.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fitness.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240614140920_ExtendIdentityUserProperly")]
+    partial class ExtendIdentityUserProperly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +128,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BodyWeights", (string)null);
+                    b.ToTable("BodyWeights");
 
                     b.HasData(
                         new
@@ -171,7 +174,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Goal", (string)null);
+                    b.ToTable("Goal");
 
                     b.HasData(
                         new
@@ -230,7 +233,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Meals", (string)null);
+                    b.ToTable("Meals");
 
                     b.HasData(
                         new

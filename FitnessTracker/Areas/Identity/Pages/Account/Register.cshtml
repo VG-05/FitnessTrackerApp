@@ -27,6 +27,37 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control" autocomplete="new-password" aria-required="true" placeholder="John" />
+                <label asp-for="Input.Name">Name</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Age" class="form-control" autocomplete="new-password" aria-required="true" placeholder="18" />
+                <label asp-for="Input.Age">Age</label>
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Height" class="form-control" autocomplete="new-password" aria-required="true" placeholder="180" />
+                <label asp-for="Input.Height">Height</label>
+                <span asp-validation-for="Input.Height" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.ActivityLevel" class="form-select" autocomplete="new-password" aria-required="true" placeholder="male">
+                    <option value="Inactive">Inactive</option>
+                    <option value="Low Active">Low Active</option>
+                    <option value="Active">Active</option>
+                    <option value="Very Active">Very Active</option>
+                </select>
+                <label asp-for="Input.ActivityLevel">Activity Level</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Gender" class="form-select" autocomplete="new-password" aria-required="true" placeholder="male">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <label asp-for="Input.Gender"></label>
+            </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
