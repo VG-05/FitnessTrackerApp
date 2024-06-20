@@ -24,12 +24,12 @@ namespace Fitness.DataAccess.Data
 				new BodyWeight { Id = 3, Weight = 60.0, Unit = "kgs", Date = new DateTime(2020, 1, 22) }
 			);
 			modelBuilder.Entity<Goal>().HasData(
-				new Goal { Id = 1, TargetWeight = 50.0, Unit = "kgs", TargetDate = new DateTime(2020, 2, 25)}
+				new Goal { Id = 1, TargetWeight = 50.0, Unit = "kgs", TargetDate = new DateTime(2020, 2, 25), DailyCalories = 2000, DailyCarbs = 250, DailyProtein = 120, DailyFats = 50}
 			);
 			modelBuilder.Entity<Meal>().HasData(
 				new Meal { Id = 1, Api_Id = 534358, FoodName = "Test", Servings = 1, ServingSizeAmount = 53, ServingSizeUnit = "g",
 					Calories = 110.5, Carbohydrates = 15.6, Protein = 2, Fat = 9, MealTime = "Breakfast",
-					Date = DateOnly.FromDateTime(DateTime.Now), BrandName = "Test Brand inc."
+					Date = new DateOnly(2020, 1, 2), BrandName = "Test Brand inc."
 				}
 			);
 		}

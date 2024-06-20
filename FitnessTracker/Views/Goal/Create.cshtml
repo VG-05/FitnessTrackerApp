@@ -28,6 +28,28 @@
 				<label asp-for="Goal.TargetDate" class="ms-2"></label>
 				<span asp-validation-for="Goal.TargetDate" class="text-danger"></span>
 			</div>
+			<div class="row">
+				<div class="form-floating py-2 col-2">
+					<input asp-for="Goal.DailyCalories" class="form-control border-0 shadow" />
+					<label asp-for="Goal.DailyCalories" class="ms-2"></label>
+					<span asp-validation-for="Goal.DailyCalories" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-2 col-2">
+					<input asp-for="Goal.DailyCarbs" class="form-control border-0 shadow" />
+					<label asp-for="Goal.DailyCarbs" class="ms-2"></label>
+					<span asp-validation-for="Goal.DailyCarbs" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-2 col-2">
+					<input asp-for="Goal.DailyProtein" class="form-control border-0 shadow" />
+					<label asp-for="Goal.DailyProtein" class="ms-2"></label>
+					<span asp-validation-for="Goal.DailyProtein" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-2 col-2">
+					<input asp-for="Goal.DailyFats" class="form-control border-0 shadow" />
+					<label asp-for="Goal.DailyFats" class="ms-2"></label>
+					<span asp-validation-for="Goal.DailyFats" class="text-danger"></span>
+				</div>
+			</div>
 			<div class="row pt-2">
 				<div class="col-6 col-md-3">
 					<button type="submit" class="btn btn-primary form-control">Create</button>
