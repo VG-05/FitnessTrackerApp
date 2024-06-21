@@ -10,8 +10,11 @@ namespace Fitness.Models.ViewModels
 {
 	public class BodyWeightVM
 	{
-		public BodyWeight BodyWeight { get; set; }
+		public BodyWeight BodyWeight { get; set; } = new();
 		[ValidateNever]
-		public IEnumerable<SelectListItem> Units { get; set; }
+		public IEnumerable<SelectListItem> Units { get; set; } = [
+			new SelectListItem { Text = "kgs" , Value = "kgs"},
+			new SelectListItem { Text = "lbs" , Value = "lbs"}
+		];
 	}
 }

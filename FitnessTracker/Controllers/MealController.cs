@@ -2,9 +2,12 @@
 using Fitness.Models;
 using Fitness.Models.ViewModels;
 using FitnessTracker.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
+using System.Linq;
+using System.Security.Claims;
 
 namespace FitnessTracker.Controllers
 {
@@ -13,40 +16,20 @@ namespace FitnessTracker.Controllers
         private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFitnessCalculatorService _fitnessCalculatorService;
-        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork, IFitnessCalculatorService fitnessCalculatorService)
+        private readonly UserManager<ApplicationUser> _userManager;
+        
+        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork, IFitnessCalculatorService fitnessCalculatorService, UserManager<ApplicationUser> userManager)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
             _fitnessCalculatorService = fitnessCalculatorService;
-        }
+            _userManager = userManager;
+		}
         public IActionResult Index()
         {
             List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
 			return View(Meals);
         }
-
-
-        public IActionResult AddGoal()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddGoal(UserDetailsVM userDetailsVM)
-        {
-			JObject? data = await _fitnessCalculatorService.GetNutritionInfoAsync(userDetailsVM.Age, userDetailsVM.Sex, userDetailsVM.Height, userDetailsVM.Weight, userDetailsVM.ActivityLevel);
-			if (data == null)
-			{
-				return NotFound();
-			}
-			string? caloriesDesc = (string?)data.SelectToken("BMI_EER.Estimated Daily Caloric Needs");
-			string? carbsDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[1][1]");
-			string? proteinDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[3][1]");
-			string ? fatsDesc = (string?)data.SelectToken("macronutrients_table.macronutrients-table[4][1]");
-
-
-			return View();
-		}
 
         public IActionResult Details(DayMealVM dayMealVM)
         {
@@ -95,7 +78,7 @@ namespace FitnessTracker.Controllers
                         Api_Id = api_id,
                         FoodName = (string?)foodItem.SelectToken("description"),
                         BrandName = (string?)foodItem.SelectToken("brandName"),
-						Calories = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrientName") ?? "").Value<string>() == "Energy", new JObject()).SelectToken("amount"),
+						Calories = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Energy", new JObject()).SelectToken("amount"),
                         Carbohydrates = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Carbohydrate, by difference", new JObject()).SelectToken("amount"),
                         Protein = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Protein", new JObject()).SelectToken("amount"),
 						Fat = (double?)(foodItem.SelectToken("foodNutrients") ?? new JArray()).FirstOrDefault(n => (n.SelectToken("nutrient.name") ?? "").Value<string>() == "Total lipid (fat)", new JObject()).SelectToken("amount"),

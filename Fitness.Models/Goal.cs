@@ -13,11 +13,13 @@ namespace Fitness.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [DisplayName("Target Weight")]
         public double TargetWeight { get; set; }
         [AllowedValues(["kgs", "lbs"], ErrorMessage = "Please enter one of 'kgs' or 'lbs'.")]
         [Required]
         public string Unit { get; set; } = string.Empty;
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayName("Target Date")]
         public DateTime TargetDate { get; set; }
         [DisplayName("Daily Calories")]
         public int DailyCalories { get; set; }

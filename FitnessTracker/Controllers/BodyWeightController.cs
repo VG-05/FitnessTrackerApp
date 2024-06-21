@@ -31,14 +31,12 @@ namespace FitnessTracker.Controllers
 		// GET: BodyWeightController/Create
 		public IActionResult Create()
 		{
-			IEnumerable<SelectListItem> Units = new SelectListItem[] {
-				new SelectListItem { Text = "kgs" , Value = "kgs"},
-				new SelectListItem { Text = "lbs" , Value = "lbs"}
-			};
-			BodyWeightVM bodyWeightVM = new BodyWeightVM()
+			BodyWeightVM bodyWeightVM = new()
 			{
-				BodyWeight = new BodyWeight(),
-				Units = Units
+				BodyWeight = new BodyWeight()
+				{
+					Date = DateTime.Now
+				}
 			};
 			return View(bodyWeightVM);
 		}
@@ -60,10 +58,6 @@ namespace FitnessTracker.Controllers
 		// GET: BodyWeightController/Edit/5
 		public IActionResult Edit(int? id)
 		{
-			IEnumerable<SelectListItem> Units = new SelectListItem[] {
-				new SelectListItem { Text = "kgs" , Value = "kgs"},
-				new SelectListItem { Text = "lbs" , Value = "lbs"}
-			};
 			if (id == null || id == 0)
 			{
 				return NotFound();
@@ -77,8 +71,7 @@ namespace FitnessTracker.Controllers
 
 			BodyWeightVM bodyWeightVM = new BodyWeightVM()
 			{
-				BodyWeight = bodyWeightFromDb,
-				Units = Units
+				BodyWeight = bodyWeightFromDb
 			};
 			return View(bodyWeightVM);
 		}
