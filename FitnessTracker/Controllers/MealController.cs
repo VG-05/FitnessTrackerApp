@@ -164,5 +164,27 @@ namespace FitnessTracker.Controllers
 			}
             return NotFound();
 		}
-	}
+
+        #region APICALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Meal> mealList = _unitOfWork.Meals.GetAll().ToList();
+            Dictionary<DateOnly, List<Meal>> mealsDict = mealList.OrderBy(o => o.Date)
+                                                                 .GroupBy(o => o.Date)
+                                                                 .ToDictionary(g => g.Key, g => g.ToList());
+            List<TodayMeals> cumulativeMeals = mealsDict.Select(u => new TodayMeals()
+            {
+                Date = u.Key,
+                TotalCalories = u.Value.Sum(meal => (meal.Calories ?? 0)),
+                TotalCarbs = u.Value.Sum(meal => (meal.Carbohydrates ?? 0)),
+                TotalFats = u.Value.Sum(meal => (meal.Fat ?? 0)),
+                TotalProtein = u.Value.Sum(meal => (meal.Protein ?? 0))
+            }).ToList();
+
+
+            return Json(new { data = cumulativeMeals });
+        }
+        #endregion
+    }
 }

@@ -1,25 +1,44 @@
 ﻿@model List<Meal>
 
-<div class="card shadow border-0 mt-4">
-	<div class="card-header bg-primary bg-gradient m-lg-0 py-3">
-		<div class="row">
-			<div class="col-12 text-center">
-				<h2 class="text-white py-2">Nutrition Progress</h2>
-			</div>
-		</div>
-	</div>
-	<div class="card-body p-4">
-		<div class="row d-flex justify-content-between pb-3">
-			<div class="col">
-				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
-					<i class="bi bi-calendar-plus"></i> Log Food
-				</a>
-			</div>
-			<div class="col text-end">
-				<a asp-controller="Meal" asp-action="Details" class="btn btn-primary">
-					<i class="bi bi-list-task"></i> See Meals
-				</a>
-			</div>
-		</div>
-	</<div>
+<div class="container">
+    <div class="row d-flex justify-content-between pb-3">
+        
+    </div>
+    <div class="row">
+        <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
+
+            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Weekly" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="Nutrition-Weekly">Weekly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Nutrition-Monthly">Monthly</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Nutrition-Annual">Annual</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-AllTime" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Nutrition-AllTime">All Time</label>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
+                <i class="bi bi-calendar-plus"></i> Log Food
+            </a>
+            <a asp-controller="Meal" asp-action="Details" class="btn btn-primary">
+                <i class="bi bi-list-task"></i> See Meals
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <canvas id="nutritionChart" class="d-block" alt="Nutrition progress..."></canvas>
+        </div>
+        <div class="col-4">
+            <canvas id="dailyNutritionChart" class="d-block" alt="Daily Nutrition Progress..."></canvas>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/nutritionchart.js" asp-append-version="true"></script>
+    <script src="~/js/dailynutritionchart.js" asp-append-version="true"></script>
+}

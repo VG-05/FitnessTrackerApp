@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Fitness.Models.ViewModels
     {
         public Goal Goal { get; set; } = new()
 		{
-			TargetDate = DateTime.Now,
+			TargetDate = DateTime.Now.AtMidnight()
 		};
         [ValidateNever]
         public IEnumerable<SelectListItem> Units { get; set; } = [
