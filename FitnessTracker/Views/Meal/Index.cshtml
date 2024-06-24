@@ -1,9 +1,6 @@
 ﻿@model List<Meal>
 
 <div class="container">
-    <div class="row d-flex justify-content-between pb-3">
-        
-    </div>
     <div class="row">
         <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
 
@@ -20,12 +17,8 @@
             <label class="btn btn-outline-primary" for="Nutrition-AllTime">All Time</label>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
-                <i class="bi bi-calendar-plus"></i> Log Food
-            </a>
-            <a asp-controller="Meal" asp-action="Details" class="btn btn-primary">
-                <i class="bi bi-list-task"></i> See Meals
-            </a>
+            <label for="inputDate">Select Date</label>
+            <input type="date" id="inputDate" value=@DateTime.Today.ToString("yyyy-MM-dd") />
         </div>
     </div>
     <div class="row">

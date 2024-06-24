@@ -13,10 +13,10 @@ $(() => {
             dataType: "json"
         })
     )
-    .done(onSuccessResult);
+    .done(generateNutritionBarGraph);
 })
 
-function onSuccessResult(goal, cumulativeMeals) {
+function generateNutritionBarGraph(goal, cumulativeMeals) {
     let _progressData = cumulativeMeals[0].data;
     let _goalData = goal[0].data;
     let _chartLabels = new Array();
