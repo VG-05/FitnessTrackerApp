@@ -2,12 +2,8 @@
 using Fitness.Models;
 using Fitness.Models.ViewModels;
 using FitnessTracker.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Security.Claims;
 
 namespace FitnessTracker.Controllers
 {
@@ -15,15 +11,11 @@ namespace FitnessTracker.Controllers
     {
         private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IFitnessCalculatorService _fitnessCalculatorService;
-        private readonly UserManager<ApplicationUser> _userManager;
         
-        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork, IFitnessCalculatorService fitnessCalculatorService, UserManager<ApplicationUser> userManager)
+        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
-            _fitnessCalculatorService = fitnessCalculatorService;
-            _userManager = userManager;
 		}
         public IActionResult Index()
         {
@@ -176,10 +168,10 @@ namespace FitnessTracker.Controllers
             List<TodayMeals> cumulativeMeals = mealsDict.Select(u => new TodayMeals()
             {
                 Date = u.Key,
-                TotalCalories = u.Value.Sum(meal => (meal.Calories ?? 0)),
-                TotalCarbs = u.Value.Sum(meal => (meal.Carbohydrates ?? 0)),
-                TotalFats = u.Value.Sum(meal => (meal.Fat ?? 0)),
-                TotalProtein = u.Value.Sum(meal => (meal.Protein ?? 0))
+                TotalCalories = u.Value.Sum(meal => (meal.Calories ?? 0) * (meal.Servings ?? 0)),
+                TotalCarbs = u.Value.Sum(meal => (meal.Carbohydrates ?? 0) * (meal.Servings ?? 0)),
+                TotalFats = u.Value.Sum(meal => (meal.Fat ?? 0) * (meal.Servings ?? 0)),
+                TotalProtein = u.Value.Sum(meal => (meal.Protein ?? 0) * (meal.Servings ?? 0))
             }).ToList();
 
 

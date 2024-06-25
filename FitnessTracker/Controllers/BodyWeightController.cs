@@ -35,7 +35,7 @@ namespace FitnessTracker.Controllers
 			{
 				BodyWeight = new BodyWeight()
 				{
-					Date = DateTime.Now
+					Date = DateTime.Today
 				}
 			};
 			return View(bodyWeightVM);

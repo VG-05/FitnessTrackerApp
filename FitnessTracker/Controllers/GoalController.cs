@@ -5,10 +5,7 @@ using FitnessTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace FitnessTracker.Controllers
 {

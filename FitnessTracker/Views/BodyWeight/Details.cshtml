@@ -25,10 +25,10 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>
+					<th class="text-center">
 						Body Weight
 					</th>
-					<th>
+					<th class="text-center">
 						Date Logged
 					</th>
 					<th>
@@ -40,13 +40,13 @@
 				@foreach (var obj in Model)
 				{
 					<tr>
-						<td>
+						<td class="text-center">
 							@obj.Weight @obj.Unit
 						</td>
-						<td>
+						<td class="text-center">
 							@obj.Date
 						</td>
-						<td>
+						<td class="text-center">
 							<div class="w-75 btn-group" role="group">
 								<a asp-controller="BodyWeight" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
 									<i class="bi bi-pencil-square"></i> Edit

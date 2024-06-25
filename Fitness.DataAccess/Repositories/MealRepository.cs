@@ -19,7 +19,7 @@ namespace Fitness.DataAccess.Repositories
 
 		public void Update(Meal meal)
 		{
-			_db.Meals.Add(meal);
+			_db.Meals.Update(meal);
 		}
 	}
 }

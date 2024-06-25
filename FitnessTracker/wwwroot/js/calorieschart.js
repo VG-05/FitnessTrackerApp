@@ -13,10 +13,10 @@ $(() => {
             dataType: "json"
         })
     )
-    .done(generateNutritionBarGraph);
+    .done(generateCaloriesBarGraph);
 })
 
-function generateNutritionBarGraph(goal, cumulativeMeals) {
+function generateCaloriesBarGraph(goal, cumulativeMeals) {
     let _progressData = cumulativeMeals[0].data;
     let _goalData = goal[0].data;
     let _chartLabels = new Array();
@@ -42,7 +42,7 @@ function generateNutritionBarGraph(goal, cumulativeMeals) {
 
     let lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
 
-    let goalchart = new Chart("nutritionChart", {
+    let goalchart = new Chart("caloriesChart", {
         options: {
             scales: {
                 x: {
@@ -99,7 +99,7 @@ function generateNutritionBarGraph(goal, cumulativeMeals) {
     });
 
 
-    $("#Nutrition-Weekly").on('click', () => {
+    $("#Calories-Weekly").on('click', () => {
         goalchart.options.plugins.title.text = "This Week"
         goalchart.options.scales.x.min = lastLogged.startOf("week").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("week").toISO();
@@ -107,7 +107,7 @@ function generateNutritionBarGraph(goal, cumulativeMeals) {
         goalchart.options.scales.x.time.minUnit = "day";
         goalchart.update();
     })
-    $("#Nutrition-Monthly").on('click', () => {
+    $("#Calories-Monthly").on('click', () => {
         goalchart.options.plugins.title.text = "This Month"
         goalchart.options.scales.x.min = lastLogged.startOf("month").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("month").toISO();
@@ -115,7 +115,7 @@ function generateNutritionBarGraph(goal, cumulativeMeals) {
         delete goalchart.options.scales.x.time.displayFormats.day;
         goalchart.update();
     })
-    $("#Nutrition-Annual").on('click', () => {
+    $("#Calories-Annual").on('click', () => {
         goalchart.options.plugins.title.text = "This Year"
         goalchart.options.scales.x.min = lastLogged.startOf("year").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("year").toISO();
@@ -123,7 +123,7 @@ function generateNutritionBarGraph(goal, cumulativeMeals) {
         delete goalchart.options.scales.x.time.displayFormats.day;
         goalchart.update();
     })
-    $("#Nutrition-AllTime").on('click', () => {
+    $("#Calories-AllTime").on('click', () => {
         goalchart.options.plugins.title.text = "All Time"
         delete goalchart.options.scales.x.min;
         delete goalchart.options.scales.x.max;

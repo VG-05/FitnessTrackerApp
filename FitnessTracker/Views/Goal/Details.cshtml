@@ -25,11 +25,14 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>
-						Body Weight
+					<th class="text-center">
+						Target Weight
 					</th>
-					<th>
-						Date Logged
+					<th class="text-center">
+						Target Date
+					</th>
+					<th class="text-center">
+						Target Calories/day
 					</th>
 					<th>
 
@@ -40,13 +43,16 @@
 				@foreach (var obj in Model)
 				{
 					<tr>
-						<td>
+						<td class="text-center">
 							@obj.TargetWeight @obj.Unit
 						</td>
-						<td>
+						<td class="text-center">
 							@obj.TargetDate
 						</td>
-						<td>
+						<td class="text-center">
+							@obj.DailyCalories cal
+						</td>
+						<td class="text-center">
 							<div class="w-75 btn-group" role="group">
 								<a asp-controller="Goal" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
 									<i class="bi bi-pencil-square"></i> Edit

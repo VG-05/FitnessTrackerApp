@@ -2,19 +2,19 @@
 
 <div class="container">
     <div class="row">
-        <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
+        <div class="btn-group col-6" role="group" aria-label="Choose Time For Calories Graph">
 
-            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Weekly" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="Nutrition-Weekly">Weekly</label>
+            <input type="radio" class="btn-check" name="btnradio" id="Calories-Weekly" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="Calories-Weekly">Weekly</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Monthly" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Nutrition-Monthly">Monthly</label>
+            <input type="radio" class="btn-check" name="btnradio" id="Calories-Monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-Monthly">Monthly</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-Annual" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Nutrition-Annual">Annual</label>
+            <input type="radio" class="btn-check" name="btnradio" id="Calories-Annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-Annual">Annual</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="Nutrition-AllTime" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Nutrition-AllTime">All Time</label>
+            <input type="radio" class="btn-check" name="btnradio" id="Calories-AllTime" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-AllTime">All Time</label>
         </div>
         <div class="col-6 text-end">
             <label for="inputDate">Select Date</label>
@@ -23,7 +23,7 @@
     </div>
     <div class="row">
         <div class="col-8">
-            <canvas id="nutritionChart" class="d-block" alt="Nutrition progress..."></canvas>
+            <canvas id="caloriesChart" class="d-block" alt="Calories progress..."></canvas>
         </div>
         <div class="col-4">
             <canvas id="dailyNutritionChart" class="d-block" alt="Daily Nutrition Progress..."></canvas>
@@ -32,6 +32,6 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/nutritionchart.js" asp-append-version="true"></script>
+    <script src="~/js/calorieschart.js" asp-append-version="true"></script>
     <script src="~/js/dailynutritionchart.js" asp-append-version="true"></script>
 }
