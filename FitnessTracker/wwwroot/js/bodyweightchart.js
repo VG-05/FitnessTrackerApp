@@ -15,25 +15,11 @@ function onSuccessResult(data) {
     let _data = data.data;
     let _chartLabels = new Array();
     let _chartData = new Array();
-    let numberOfPounds = 0;
-    let numberOfKgs = 0;
-    _data.forEach(function (obj) {
-        if (obj.unit === "kgs") {              
-            numberOfKgs+=1;
-        } else {                       
-            numberOfPounds+=1;
-        }
-        _chartLabels.push(obj.date);
-    });
+    let dominantUnit = _data[_data.length - 1].unit;
 
-    let dominantUnit;
-    if (numberOfPounds > numberOfKgs) {
-        dominantUnit = "lb";
-    } else {
-        dominantUnit = "kg";
-    }
     _data.forEach(function (obj) {
-        if (numberOfPounds > numberOfKgs) {
+        _chartLabels.push(obj.date);
+        if (dominantUnit == "lbs") {
             if (obj.unit == "kgs") {
                 _chartData.push(obj.weight * 2.205);
             } else {
@@ -47,6 +33,7 @@ function onSuccessResult(data) {
             }
         }
     });
+
     let lastLogged = luxon.DateTime.fromISO(_data[_data.length - 1].date);
 
     let bodyweightchart = new Chart("bodyWeightChart", {

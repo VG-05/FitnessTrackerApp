@@ -17,7 +17,7 @@ namespace FitnessTracker.Controllers
 		}
 		public ActionResult Index()
 		{
-			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().ToList();
+			IQueryable<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().OrderBy(u => u.Date).AsQueryable();
 			return View(BodyWeights);
 		}
 
