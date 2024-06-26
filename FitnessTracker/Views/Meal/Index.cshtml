@@ -1,37 +1,359 @@
-﻿@model List<Meal>
+﻿@model DayMealVM
 
 <div class="container">
-    <div class="row">
-        <div class="btn-group col-6" role="group" aria-label="Choose Time For Calories Graph">
-
-            <input type="radio" class="btn-check" name="btnradio" id="Calories-Weekly" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="Calories-Weekly">Weekly</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Calories-Monthly" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Calories-Monthly">Monthly</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Calories-Annual" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Calories-Annual">Annual</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Calories-AllTime" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Calories-AllTime">All Time</label>
-        </div>
-        <div class="col-6 text-end">
-            <label for="inputDate">Select Date</label>
-            <input type="date" id="inputDate" value=@DateTime.Today.ToString("yyyy-MM-dd") />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-8">
-            <canvas id="caloriesChart" class="d-block" alt="Calories progress..."></canvas>
-        </div>
-        <div class="col-4">
+    <div class="row justify-content-center">
+        <div class="col-5">
             <canvas id="dailyNutritionChart" class="d-block" alt="Daily Nutrition Progress..."></canvas>
         </div>
+    </div>
+    <div class="row justify-content-center my-4">
+        <form id="dateform" class="col-6">
+            <div class="form-group">
+                <label asp-for="Date">Select Date</label>
+                <input id="inputDate" asp-for="Date" type="date" class="form-control" placeholder="Enter date" />
+            </div>
+        </form>
+        @* <div class="col-6">
+            <label class="" for="inputDate">Select Date</label>
+            <input style="width:80%;" type="date" id="inputDate" value=@DateTime.Today.ToString("yyyy-MM-dd") />
+        </div> *@
+    </div>
+    <div>
+		<div class="d-flex justify-content-between">
+			<div class="h3">Breakfast</div>
+			<div class="h3">
+				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
+					<i class="bi bi-calendar-plus"></i> Log Food
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th style="width:35%">
+						Meal
+					</th>
+					<th style="width:15%">
+						Servings
+					</th>
+					<th style="width:20%">
+						Total Calories
+					</th>
+					<th style="width:30%">
+
+					</th>
+				</tr>
+			</thead>
+
+			@if (Model.Breakfast.Any())
+			{
+				<tbody>
+					@foreach (Meal food in Model.Breakfast)
+					{
+						<tr>
+							<td>
+								@food.FoodName
+							</td>
+							<td>
+								@food.Servings
+							</td>
+							<td>
+								@(food.Servings * food.Calories)
+							</td>
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Meal" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-primary mx-2">
+										<i class="bi bi-pencil-square"></i> Edit
+									</a>
+									<a asp-controller="Meal" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill"></i> Delete
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+				<tfoot class="table-group-divider fw-bold">
+					<tr>
+						<td>
+							Total:
+						</td>
+						<td>
+						</td>
+						<td>
+							@Model.Breakfast.Sum(food => food.Calories * food.Servings)
+						</td>
+						<td>
+						</td>
+					</tr>
+				</tfoot>
+			}
+			else
+			{
+				<tbody>
+					<tr>
+						<td class="text-center" colspan="4">No food added for this meal...</td>
+					</tr>
+				</tbody>
+			}
+
+		</table>
+		<hr />
+
+		<div class="d-flex justify-content-between">
+			<div class="h3">Lunch</div>
+			<div class="h3">
+				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
+					<i class="bi bi-calendar-plus"></i> Log Food
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th style="width:35%">
+						Meal
+					</th>
+					<th style="width:15%">
+						Servings
+					</th>
+					<th style="width:20%">
+						Total Calories
+					</th>
+					<th style="width:30%">
+
+					</th>
+				</tr>
+			</thead>
+
+			@if (Model.Lunch.Any())
+			{
+				<tbody>
+					@foreach (Meal food in Model.Lunch)
+					{
+						<tr>
+							<td>
+								@food.FoodName
+							</td>
+							<td>
+								@food.Servings
+							</td>
+							<td>
+								@(food.Servings * food.Calories)
+							</td>
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Meal" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-primary mx-2">
+										<i class="bi bi-pencil-square"></i> Edit
+									</a>
+									<a asp-controller="Meal" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill"></i> Delete
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+				<tfoot class="table-group-divider fw-bold">
+					<tr>
+						<td>
+							Total:
+						</td>
+						<td>
+						</td>
+						<td>
+							@Model.Lunch.Sum(food => food.Calories * food.Servings)
+						</td>
+						<td>
+						</td>
+					</tr>
+				</tfoot>
+			}
+			else
+			{
+				<tbody>
+					<tr>
+						<td class="text-center" colspan="4">No food added for this meal...</td>
+					</tr>
+				</tbody>
+			}
+
+		</table>
+		<hr />
+
+		<div class="d-flex justify-content-between">
+			<div class="h3">Snacks</div>
+			<div class="h3">
+				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
+					<i class="bi bi-calendar-plus"></i> Log Food
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th style="width:35%">
+						Meal
+					</th>
+					<th style="width:15%">
+						Servings
+					</th>
+					<th style="width:20%">
+						Total Calories
+					</th>
+					<th style="width:30%">
+
+					</th>
+				</tr>
+			</thead>
+
+			@if (Model.Snacks.Any())
+			{
+				<tbody>
+					@foreach (Meal food in Model.Snacks)
+					{
+						<tr>
+							<td>
+								@food.FoodName
+							</td>
+							<td>
+								@food.Servings
+							</td>
+							<td>
+								@(food.Servings * food.Calories)
+							</td>
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Meal" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-primary mx-2">
+										<i class="bi bi-pencil-square"></i> Edit
+									</a>
+									<a asp-controller="Meal" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill"></i> Delete
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+				<tfoot class="table-group-divider fw-bold">
+					<tr>
+						<td>
+							Total:
+						</td>
+						<td>
+						</td>
+						<td>
+							@Model.Snacks.Sum(food => food.Calories * food.Servings)
+						</td>
+						<td>
+						</td>
+					</tr>
+				</tfoot>
+			}
+			else
+			{
+				<tbody>
+					<tr>
+						<td class="text-center" colspan="4">No food added for this meal...</td>
+					</tr>
+				</tbody>
+			}
+
+		</table>
+		<hr />
+
+		<div class="d-flex justify-content-between">
+			<div class="h3">Dinner</div>
+			<div class="h3">
+				<a asp-controller="Meal" asp-action="Search" class="btn btn-primary">
+					<i class="bi bi-calendar-plus"></i> Log Food
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th style="width:35%">
+						Meal
+					</th>
+					<th style="width:15%">
+						Servings
+					</th>
+					<th style="width:20%">
+						Total Calories
+					</th>
+					<th style="width:30%">
+
+					</th>
+				</tr>
+			</thead>
+
+			@if (Model.Dinner.Any())
+			{
+				<tbody>
+					@foreach (Meal food in Model.Dinner)
+					{
+						<tr>
+							<td>
+								@food.FoodName
+							</td>
+							<td>
+								@food.Servings
+							</td>
+							<td>
+								@(food.Servings * food.Calories)
+							</td>
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Meal" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-primary mx-2">
+										<i class="bi bi-pencil-square"></i> Edit
+									</a>
+									<a asp-controller="Meal" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill"></i> Delete
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+				<tfoot class="table-group-divider fw-bold">
+					<tr>
+						<td>
+							Total:
+						</td>
+						<td>
+						</td>
+						<td>
+							@Model.Dinner.Sum(food => food.Calories * food.Servings)
+						</td>
+						<td>
+						</td>
+					</tr>
+				</tfoot>
+			}
+			else
+			{
+				<tbody>
+					<tr>
+						<td class="text-center" colspan="4">No food added for this meal...</td>
+					</tr>
+				</tbody>
+			}
+
+		</table>
+		<hr />
     </div>
 </div>
 
 @section Scripts {
     <script src="~/js/calorieschart.js" asp-append-version="true"></script>
     <script src="~/js/dailynutritionchart.js" asp-append-version="true"></script>
+	<script type="text/javascript">
+		$("#inputDate").on("change", function () {
+			$("#dateform").submit();
+		})
+	</script>
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
 }

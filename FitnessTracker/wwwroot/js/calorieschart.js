@@ -44,6 +44,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
 
     let goalchart = new Chart("caloriesChart", {
         options: {
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     type: 'time',

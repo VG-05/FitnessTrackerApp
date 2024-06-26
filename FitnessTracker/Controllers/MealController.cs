@@ -17,24 +17,18 @@ namespace FitnessTracker.Controllers
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
 		}
-        public IActionResult Index()
+        public IActionResult Index(DayMealVM dayMealVM)
         {
-            List<Meal> Meals = _unitOfWork.Meals.GetAll().ToList();
-			return View(Meals);
-        }
-
-        public IActionResult Details(DayMealVM dayMealVM)
-        {
-		    List<Meal> dayMeals = _unitOfWork.Meals.GetSome(u => u.Date == dayMealVM.Date).ToList();
-			Dictionary<string, List<Meal>> dayMealsDict = dayMeals.GroupBy(o => o.MealTime)
-				                                                  .ToDictionary(g => g.Key, g => g.ToList());
+            List<Meal> dayMeals = _unitOfWork.Meals.GetSome(u => u.Date == dayMealVM.Date).ToList();
+            Dictionary<string, List<Meal>> dayMealsDict = dayMeals.GroupBy(o => o.MealTime)
+                                                                  .ToDictionary(g => g.Key, g => g.ToList());
 
             dayMealVM.Breakfast = dayMealsDict.GetValueOrDefault("Breakfast", []);
-			dayMealVM.Lunch = dayMealsDict.GetValueOrDefault("Lunch", []);
-			dayMealVM.Snacks = dayMealsDict.GetValueOrDefault("Snacks", []);
-			dayMealVM.Dinner = dayMealsDict.GetValueOrDefault("Dinner", []);
+            dayMealVM.Lunch = dayMealsDict.GetValueOrDefault("Lunch", []);
+            dayMealVM.Snacks = dayMealsDict.GetValueOrDefault("Snacks", []);
+            dayMealVM.Dinner = dayMealsDict.GetValueOrDefault("Dinner", []);
 
-			return View(dayMealVM);
+            return View(dayMealVM);
         }
 
         [ActionName("Search")]

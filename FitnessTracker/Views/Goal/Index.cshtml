@@ -4,37 +4,60 @@
 }
 
 <div class="container">
-    <div class="row">
-        <div class="btn-group col-6" role="group" aria-label="Choose Time For BodyWeight Graph">
-
-            <input type="radio" class="btn-check" name="btnradio" id="Goal-Weekly" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Goal-Weekly">Weekly</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Goal-Monthly" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Goal-Monthly">Monthly</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Goal-Annual" autocomplete="off">
-            <label class="btn btn-outline-primary" for="Goal-Annual">Annual</label>
-
-            <input type="radio" class="btn-check" name="btnradio" id="Goal-AllTime" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="Goal-AllTime">All Time</label>
-        </div>
+    <div class="row justify-content-end">
         <div class="col-6 text-end">
             <a asp-controller="Goal" asp-action="Create" class="btn btn-primary">
                 <i class="bi bi-bullseye"></i> Add Goal
             </a>
             <a class="btn btn-primary" asp-controller="Goal" asp-action="Details">
-                <i class="bi bi-list-task"></i> Display/Edit Goals
+                <i class="bi bi-list-task"></i> Edit Goals
             </a>
         </div>
     </div>
+
+    <div class="row justify-content-around my-3">
+        <div class="btn-group col-4" role="group" aria-label="Choose Time For BodyWeight Graph">
+
+            <input type="radio" class="btn-check" name="weight-graph-time" id="Goal-Weekly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Weekly">Weekly</label>
+
+            <input type="radio" class="btn-check" name="weight-graph-time" id="Goal-Monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Monthly">Monthly</label>
+
+            <input type="radio" class="btn-check" name="weight-graph-time" id="Goal-Annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Goal-Annual">Annual</label>
+
+            <input type="radio" class="btn-check" name="weight-graph-time" id="Goal-AllTime" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="Goal-AllTime">All Time</label>
+        </div>
+
+        <div class="btn-group col-4" role="group" aria-label="Choose Time For Calories Graph">
+
+            <input type="radio" class="btn-check" name="calorie-graph-time" id="Calories-Weekly" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="Calories-Weekly">Weekly</label>
+
+            <input type="radio" class="btn-check" name="calorie-graph-time" id="Calories-Monthly" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-Monthly">Monthly</label>
+
+            <input type="radio" class="btn-check" name="calorie-graph-time" id="Calories-Annual" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-Annual">Annual</label>
+
+            <input type="radio" class="btn-check" name="calorie-graph-time" id="Calories-AllTime" autocomplete="off">
+            <label class="btn btn-outline-primary" for="Calories-AllTime">All Time</label>
+        </div>
+    </div>
+
     <div class="row">
-        <div class="col-12"> 
+        <div class="col-6" style="height: 60vh;"> 
             <canvas id="goalChart" class="d-block" alt="Target Weight Progress..."></canvas>
+        </div>
+        <div class="col-6" style="height: 60vh;">
+            <canvas id="caloriesChart" class="d-block" alt="Calories progress..."></canvas>
         </div>
     </div>
 </div>
 
 @section Scripts{
+    <script src="~/js/calorieschart.js" asp-append-version="true"></script>
 	<script src="~/js/goalchart.js" asp-append-version="true"></script>
 }
