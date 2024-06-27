@@ -31,8 +31,9 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
 
 
     // include starting point for _goalChart
-    _goalChart.push({ x: _progressData[0].date, y: _goalData[0].dailyCalories });
-
+    if (_progressData.length > 0) {
+        _goalChart.push({ x: _progressData[0].date, y: _goalData[0].dailyCalories });
+    }
 
     // adding goal weight logs to _goalChart and _chartLabels
     _goalData.forEach(function (goal) {
@@ -40,7 +41,10 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
         _goalChart.push({ x: goal.targetDate, y: goal.dailyCalories })
     });
 
-    let lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
+    let lastLogged = luxon.DateTime.Now;
+    if (_progressData.length > 0) {
+        lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
+    }
 
     let goalchart = new Chart("caloriesChart", {
         options: {

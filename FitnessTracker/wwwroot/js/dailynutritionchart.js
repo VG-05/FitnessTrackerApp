@@ -23,7 +23,7 @@ function onSuccessResult(goal, cumulativeMeals) {
     let inputdate = document.getElementById("inputDate").value;
 
     // finding relevant goal for the given date
-    let relevantgoal;
+    let relevantgoal = { dailyCalories : 2000, dailyCarbs : 275, dailyFats : 55, dailyProtein : 65 };
     for (let i = 0; i < _goalData.length; i++) {
         if (_goalData[i].targetDate > luxon.DateTime.fromISO(inputdate)) {
             relevantgoal = _goalData[i];
@@ -123,7 +123,10 @@ function onSuccessResult(goal, cumulativeMeals) {
                 },
                 title: {
                     display: true,
-                    text: inputdate.toString() + " Nutrition Progress"
+                    text: inputdate.toString() + " Nutrition Progress",
+                    font: {
+                        size: 22
+                    }
                 }
             }
         },
@@ -150,7 +153,7 @@ function onSuccessResult(goal, cumulativeMeals) {
     $("#inputDate").on('change', () => {
         inputdate = document.getElementById("inputDate").value;
         // finding relevant goal for the given date
-        let relevantgoal;
+        let relevantgoal = { dailyCalories : 2000, dailyCarbs : 275, dailyFats : 55, dailyProtein : 65 };
         for (let i = 0; i < _goalData.length; i++) {
             if (_goalData[i].targetDate > luxon.DateTime.fromISO(inputdate)) {
                 relevantgoal = _goalData[i];

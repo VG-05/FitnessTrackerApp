@@ -21,7 +21,14 @@ function onSuccessResult(goal, bodyWeights) {
     let _chartLabels = new Array();
     let _progressChart = new Array();
     let _goalChart = new Array();
-    let dominantUnit = _progressData[_progressData.length - 1].unit;
+    let dominantUnit;
+    if (_progressData.length > 0) {
+        dominantUnit = _progressData[_progressData.length - 1].unit;
+    }
+    else {
+        dominantUnit = "kgs";
+    }
+
     let weight = 0;
 
 
@@ -46,22 +53,23 @@ function onSuccessResult(goal, bodyWeights) {
 
 
     // include initial bodyweight (in dominant unit) in _goalChart
-    if (dominantUnit == "lbs") {
-        if (_progressData[0].unit == "kgs") {
-            weight = _progressData[0].weight * 2.205;
+    if (_progressData.length > 0) {
+        if (dominantUnit == "lbs") {
+            if (_progressData[0].unit == "kgs") {
+                weight = _progressData[0].weight * 2.205;
+            } else {
+                weight = _progressData[0].weight;
+            }
         } else {
-            weight = _progressData[0].weight;
+            if (_progressData[0].unit == "kgs") {
+                weight = _progressData[0].weight;
+            } else {
+                weight = _progressData[0].weight / 2.205;
+            }
         }
-    } else {
-        if (_progressData[0].unit == "kgs") {
-            weight = _progressData[0].weight;
-        } else {
-            weight = _progressData[0].weight / 2.205;
-        }
+        _goalChart.push({ x: _progressData[0].date, y: weight });
     }
-    _goalChart.push({ x: _progressData[0].date, y: weight });
-
-
+    
     // adding goal weight logs to _goalChart and _chartLabels
     _goalData.forEach(function (goalWeight) {
         if (dominantUnit == "lbs") {
