@@ -1,13 +1,10 @@
 ﻿@model MealsVM
 
-<h1>Search Food</h1>
-
 <form id="searchForm">
-	<div class="form-group">
-		<label asp-for="SearchString">Food Name</label>
-		<input asp-for="SearchString" class="form-control" id="foodSearch" placeholder="Enter food name" />
-	</div>
-    <button type="submit" class="btn btn-primary form-control">Search</button>
+    <div class="input-group">
+        <input id="foodSearch" asp-for="SearchString" type="text" class="form-control" placeholder="Search food" aria-label="Search Food">
+        <button class="input-group-text btn btn-primary" id="foodSearch"><i class="bi bi-search"></i></button>
+    </div>
 </form>
 
 <form>
@@ -17,18 +14,25 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Food Name</th>
-                        <th>Brand</th>
-                        <th></th>
+                        <th class="text-center">Food Name</th>
+                        <th class="text-center">Brand</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in @Model.Meals)
                     {
                         <tr>
-                            <td>@item.FoodName</td>
-                            <td>@item.BrandName</td>
-                            <td>
+                            <td class="text-center">@item.FoodName</td>
+                            @if (!string.IsNullOrEmpty(item.BrandName))
+                            {
+                                <td class="text-center">@item.BrandName</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">-</td>
+                            }
+                            <td class="text-center">
                                 <a asp-controller="Meal" asp-action="Add" asp-route-api_id="@item.Api_Id" class="btn btn-info">View Details</a>
                             </td>
                         </tr>

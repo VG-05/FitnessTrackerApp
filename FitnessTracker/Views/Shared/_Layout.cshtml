@@ -4,9 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FitnessTracker</title>
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FitnessTracker.styles.css" asp-append-version="true" />
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
@@ -24,17 +26,14 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="BodyWeight" asp-action="Index">BodyWeight</a>
+                            <a class="nav-link" asp-area="" asp-controller="BodyWeight" asp-action="Index">Bodyweight</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Goal" asp-action="Index">Goal</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Meal" asp-action="Index">Meals</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>                   
+                            <a class="nav-link" asp-area="" asp-controller="Meal" asp-action="Index">Nutrition</a>
+                        </li>                
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -43,9 +42,12 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <!-- chart.js -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+            <!-- luxon -->
             <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+            <!-- JQuery -->
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             @RenderBody()
         </main>

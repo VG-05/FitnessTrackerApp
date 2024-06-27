@@ -24,7 +24,7 @@ namespace FitnessTracker.Controllers
 		// GET: BodyWeightController/Details
 		public IActionResult Details()
 		{
-			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().ToList();
+			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().OrderByDescending(u => u.Date).ToList();
 			return View(BodyWeights);
 		}
 

@@ -30,7 +30,7 @@ namespace FitnessTracker.Controllers
         // GET: GoalController/Details
         public IActionResult Details()
         {
-            List<Goal> Goals = _unitOfWork.Goal.GetAll().ToList();
+            List<Goal> Goals = _unitOfWork.Goal.GetAll().OrderByDescending(u => u.TargetDate).ToList();
             return View(Goals);
         }
 
