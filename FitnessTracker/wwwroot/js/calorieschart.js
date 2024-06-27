@@ -41,7 +41,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
         _goalChart.push({ x: goal.targetDate, y: goal.dailyCalories })
     });
 
-    let lastLogged = luxon.DateTime.Now;
+    let lastLogged = luxon.DateTime.now();
     if (_progressData.length > 0) {
         lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
     }

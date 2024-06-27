@@ -12,6 +12,7 @@
 		<form method="post" class="row">
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="form-floating py-2 col-2">
+				<input asp-for="BodyWeight.UserID" hidden />
 				<input asp-for="BodyWeight.Weight" class="form-control border-0 shadow" />
 				<label asp-for="BodyWeight.Weight" class="ms-2"></label>
 				<span asp-validation-for="BodyWeight.Weight" class="text-danger"></span>

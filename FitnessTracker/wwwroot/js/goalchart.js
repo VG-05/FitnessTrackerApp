@@ -140,8 +140,10 @@ function onSuccessResult(goal, bodyWeights) {
         }
     });
 
-
-    let lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
+    let lastLogged = luxon.DateTime.now();
+    if (_progressData.length > 0) {
+        lastLogged = luxon.DateTime.fromISO(_progressData[_progressData.length - 1].date);
+    }
 
     $("#Goal-Weekly").on('click', () => {
         goalchart.options.plugins.title.text = "This Week"

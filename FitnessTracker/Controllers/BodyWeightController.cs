@@ -1,30 +1,45 @@
 ﻿using Fitness.DataAccess.Repositories.Interfaces;
 using Fitness.Models;
 using Fitness.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace FitnessTracker.Controllers
 {
+	[Authorize]
 	public class BodyWeightController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly UserManager<ApplicationUser> _userManager;
 		// GET: BodyWeightController
-		public BodyWeightController(IUnitOfWork unitOfWork)
+		public BodyWeightController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
 		{
 			_unitOfWork = unitOfWork;
+			_userManager = userManager;
 		}
 		public ActionResult Index()
 		{
-			IQueryable<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().OrderBy(u => u.Date).AsQueryable();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			IQueryable<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetSome(m => m.UserID == user.Id).OrderBy(u => u.Date).AsQueryable();
 			return View(BodyWeights);
 		}
 
 		// GET: BodyWeightController/Details
 		public IActionResult Details()
 		{
-			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetAll().OrderByDescending(u => u.Date).ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<BodyWeight> BodyWeights = _unitOfWork.BodyWeight.GetSome(m => m.UserID == user.Id).OrderByDescending(u => u.Date).ToList();
 			return View(BodyWeights);
 		}
 
@@ -35,7 +50,8 @@ namespace FitnessTracker.Controllers
 			{
 				BodyWeight = new BodyWeight()
 				{
-					Date = DateTime.Today
+					Date = DateTime.Today,
+					UserID = _userManager.GetUserAsync(User).Result?.Id
 				}
 			};
 			return View(bodyWeightVM);
@@ -129,7 +145,13 @@ namespace FitnessTracker.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-			List<BodyWeight> bodyWeightList = _unitOfWork.BodyWeight.GetAll().ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<BodyWeight> bodyWeightList = _unitOfWork.BodyWeight.GetSome(m => m.UserID == user.Id).ToList();
+			bodyWeightList.ForEach(bodyWeight => bodyWeight.User = null);
 			return Json(new { data = bodyWeightList });
 		}
 		#endregion

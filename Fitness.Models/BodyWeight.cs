@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fitness.Models
 {
@@ -13,5 +14,9 @@ namespace Fitness.Models
 		public string Unit { get; set; } = string.Empty;          
 		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime Date { get; set; }
+		[Required]
+		public string? UserID { get; set; }
+		[ForeignKey("UserID")]
+		public ApplicationUser? User { get; set; }
 	}
 }

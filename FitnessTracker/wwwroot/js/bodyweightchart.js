@@ -15,7 +15,10 @@ function onSuccessResult(data) {
     let _data = data.data;
     let _chartLabels = new Array();
     let _chartData = new Array();
-    let dominantUnit = _data[_data.length - 1].unit;
+    let dominantUnit = "kgs";
+    if (_data.length > 0) {
+        dominantUnit = _data[_data.length - 1].unit;
+    }
 
     _data.forEach(function (obj) {
         _chartLabels.push(obj.date);
@@ -34,7 +37,11 @@ function onSuccessResult(data) {
         }
     });
 
-    let lastLogged = luxon.DateTime.fromISO(_data[_data.length - 1].date);
+    let lastLogged = luxon.DateTime.now();
+    if (_data.length > 0) {
+        lastLogged = luxon.DateTime.fromISO(_data[_data.length - 1].date);
+    }
+    
 
     let bodyweightchart = new Chart("bodyWeightChart", {
         type: 'line',

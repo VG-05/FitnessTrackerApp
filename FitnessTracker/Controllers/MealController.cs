@@ -2,24 +2,34 @@
 using Fitness.Models;
 using Fitness.Models.ViewModels;
 using FitnessTracker.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
 namespace FitnessTracker.Controllers
 {
-    public class MealController : Controller
+	[Authorize]
+	public class MealController : Controller
     {
         private readonly IUSDAFoodService _usdaFoodService;
         private readonly IUnitOfWork _unitOfWork;
-        
-        public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork)
+		private readonly UserManager<ApplicationUser> _userManager;
+
+		public MealController(IUSDAFoodService usdaFoodService, IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _usdaFoodService = usdaFoodService;
             _unitOfWork = unitOfWork;
+			_userManager = userManager;
 		}
         public IActionResult Index(DayMealVM dayMealVM)
         {
-            List<Meal> dayMeals = _unitOfWork.Meals.GetSome(u => u.Date == dayMealVM.Date).ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<Meal> dayMeals = _unitOfWork.Meals.GetSome(u => u.UserID == user.Id && u.Date == dayMealVM.Date).ToList();
             Dictionary<string, List<Meal>> dayMealsDict = dayMeals.GroupBy(o => o.MealTime)
                                                                   .ToDictionary(g => g.Key, g => g.ToList());
 
@@ -71,8 +81,9 @@ namespace FitnessTracker.Controllers
 						Date = DateOnly.FromDateTime(DateTime.Now),
                         Servings = 1,
                         ServingSizeAmount = (double?)foodItem["servingSize"],
-                        ServingSizeUnit = (string?)foodItem["servingSizeUnit"]
-                    }
+                        ServingSizeUnit = (string?)foodItem["servingSizeUnit"],
+                        UserID = _userManager.GetUserAsync(User).Result?.Id
+					}
                 };
 
                 return View(mealVM);
@@ -83,7 +94,7 @@ namespace FitnessTracker.Controllers
         [HttpPost]
         public IActionResult Add(MealVM mealVM)
         {
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 _unitOfWork.Meals.Add(mealVM.Meal);
                 _unitOfWork.Save();
@@ -155,7 +166,12 @@ namespace FitnessTracker.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Meal> mealList = _unitOfWork.Meals.GetAll().ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<Meal> mealList = _unitOfWork.Meals.GetSome(u => u.UserID == user.Id).ToList();
             Dictionary<DateOnly, List<Meal>> mealsDict = mealList.OrderBy(o => o.Date)
                                                                  .GroupBy(o => o.Date)
                                                                  .ToDictionary(g => g.Key, g => g.ToList());

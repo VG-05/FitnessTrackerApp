@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,5 +31,9 @@ namespace Fitness.Models
 		public string MealTime { get; set; } = "Breakfast";         // "Breakfast", "Lunch", "Dinner", "Snacks"
         [Required]
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    }
+		[Required]
+		public string? UserID { get; set; }
+		[ForeignKey("UserID")]
+		public ApplicationUser? User { get; set; }
+	}
 }

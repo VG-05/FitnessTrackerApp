@@ -9,7 +9,8 @@ using Newtonsoft.Json.Linq;
 
 namespace FitnessTracker.Controllers
 {
-    public class GoalController : Controller
+	[Authorize]
+	public class GoalController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 		private readonly IFitnessCalculatorService _fitnessCalculatorService;
@@ -23,28 +24,44 @@ namespace FitnessTracker.Controllers
 		}
         public ActionResult Index()
         {
-            List<Goal> Goals = _unitOfWork.Goal.GetAll().ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<Goal> Goals = _unitOfWork.Goal.GetSome(m => m.UserID == user.Id).ToList();
             return View(Goals);
         }
 
         // GET: GoalController/Details
         public IActionResult Details()
         {
-            List<Goal> Goals = _unitOfWork.Goal.GetAll().OrderByDescending(u => u.TargetDate).ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<Goal> Goals = _unitOfWork.Goal.GetSome(m => m.UserID == user.Id).OrderByDescending(u => u.TargetDate).ToList();
             return View(Goals);
         }
 
         // GET: GoalController/Create
-        [Authorize]
         public async Task<IActionResult> Create()
         {
-			BodyWeight? latestBodyWeight = _unitOfWork.BodyWeight.GetAll().OrderByDescending(u => u.Date).FirstOrDefault();
-            ApplicationUser? _currentUser = _userManager.GetUserAsync(User).Result;
-            GoalVM goalVM = new();
-            if (_currentUser == null)
+			ApplicationUser? _currentUser = _userManager.GetUserAsync(User).Result;
+			if (_currentUser == null)
+			{
+				return NotFound();
+			}
+			BodyWeight? latestBodyWeight = _unitOfWork.BodyWeight.GetSome(m => m.UserID == _currentUser.Id).OrderByDescending(u => u.Date).FirstOrDefault();
+            GoalVM goalVM = new()
             {
-                return NotFound();
-            } 
+                Goal = new Goal()
+                {
+					UserID = _userManager.GetUserAsync(User).Result?.Id,
+                    TargetDate = DateTime.Today
+				}
+            };
 			if (latestBodyWeight != null)
 			{
                 int bodyweight = (int)latestBodyWeight.Weight;
@@ -72,7 +89,7 @@ namespace FitnessTracker.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(GoalVM goalVM)
         {
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 _unitOfWork.Goal.Add(goalVM.Goal);
                 _unitOfWork.Save();
@@ -82,7 +99,6 @@ namespace FitnessTracker.Controllers
         }
 
         // GET: GoalController/Edit/5
-        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
@@ -100,7 +116,7 @@ namespace FitnessTracker.Controllers
             {
                 return NotFound();
             }
-			BodyWeight? latestBodyWeight = _unitOfWork.BodyWeight.GetAll().OrderByDescending(u => u.Date).FirstOrDefault();
+			BodyWeight? latestBodyWeight = _unitOfWork.BodyWeight.GetSome(m => m.UserID == _currentUser.Id).OrderByDescending(u => u.Date).FirstOrDefault();
 			if (latestBodyWeight != null)
 			{
 				int bodyweight = (int)latestBodyWeight.Weight;
@@ -179,7 +195,13 @@ namespace FitnessTracker.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Goal> goalList = _unitOfWork.Goal.GetAll().ToList();
+			ApplicationUser? user = _userManager.GetUserAsync(User).Result;
+			if (user == null)
+			{
+				return NotFound();
+			}
+			List<Goal> goalList = _unitOfWork.Goal.GetSome(m => m.UserID == user.Id).ToList();
+            goalList.ForEach(goal => goal.User = null);
             return Json(new { data = goalList });
         }
         #endregion

@@ -10,9 +10,10 @@
 	</div>
 	<div class="card-body">
 		<form method="post" class="row">
-			<input asp-for="@Model.Meal.Api_Id" hidden />
-			<input asp-for="@Model.Meal.ServingSizeAmount" hidden />
-			<input asp-for="@Model.Meal.ServingSizeUnit" hidden />
+			<input asp-for="Meal.UserID" hidden />
+			<input asp-for="Meal.Api_Id" hidden />
+			<input asp-for="Meal.ServingSizeAmount" hidden />
+			<input asp-for="Meal.ServingSizeUnit" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="row">
 				<div class="form-floating mb-3 col-8">

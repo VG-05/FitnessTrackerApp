@@ -11,6 +11,7 @@
 	<div class="card-body">
 		<form method="post" class="row">
 			<input asp-for="BodyWeight.Id" hidden />
+			<input asp-for="BodyWeight.UserID" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="form-floating py-2 col-2">
 				<input asp-for="BodyWeight.Weight" class="form-control border-0 shadow" />

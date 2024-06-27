@@ -24,5 +24,9 @@ namespace Fitness.Models
         [PersonalData]
         [AllowedValues("Inactive", "Low Active", "Active", "Very Active")]
         public string ActivityLevel { get; set; } = string.Empty;
-    }
+
+        public ICollection<Meal> Meals { get; set; } = [];
+        public ICollection<BodyWeight> BodyWeights { get; set; } = [];
+		public ICollection<Goal> Goals { get; set; } = [];
+	}
 }
