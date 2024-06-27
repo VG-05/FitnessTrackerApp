@@ -19,7 +19,7 @@ $(() => {
 function onSuccessResult(goal, cumulativeMeals) {
     let _mealData = cumulativeMeals[0].data;
     let _goalData = goal[0].data;
-    let _chartLabels = ["Calories", "Calories Deficit", "Carbs", "Carbs Deficit", "Protein", "Protein Deficit", "Fat", "Fat Deficit"];
+    let _chartLabels = ["Calories", "Calories Remaining", "Carbs", "Carbs Remaining", "Protein", "Protein Remaining", "Fat", "Fat Remaining"];
     let inputdate = document.getElementById("inputDate").value;
 
     // finding relevant goal for the given date
@@ -97,6 +97,9 @@ function onSuccessResult(goal, cumulativeMeals) {
                                 label.fillStyle = datasetColors[label.index];
                             });
                             return labelsOriginal;
+                        },
+                        filter: function (item, chart) {
+                            return !item.text.includes('Calories Remaining') && !item.text.includes('Carbs Remaining') && !item.text.includes('Protein Remaining') && !item.text.includes('Fat Remaining');
                         }
                     },
                     onClick: function (mouseEvent, legendItem, legend) {

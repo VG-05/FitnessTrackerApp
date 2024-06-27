@@ -13,6 +13,7 @@
 			<input asp-for="@Model.Meal.Api_Id" hidden />
 			<input asp-for="@Model.Meal.ServingSizeAmount" hidden />
 			<input asp-for="@Model.Meal.ServingSizeUnit" hidden />
+			<input asp-for="@Model.Meal.Id" hidden />
 			<div asp-validation-summary="ModelOnly"></div>
 			<div class="row">
 				<div class="form-floating mb-3 col-8">
@@ -84,7 +85,7 @@
 					<button type="submit" class="btn btn-primary form-control">Confirm</button>
 				</div>
 				<div class="col-6 col-md-3">
-					<a asp-controller="Meal" asp-action="Details" class="btn btn-outline-primary border form-control">
+					<a asp-controller="Meal" asp-action="Index" class="btn btn-outline-primary border form-control">
 						Back To Meals
 					</a>
 				</div>

@@ -13,6 +13,7 @@
 			<input asp-for="@Model.Meal.Api_Id" hidden />
 			<input asp-for="@Model.Meal.ServingSizeAmount" hidden />
 			<input asp-for="@Model.Meal.ServingSizeUnit" hidden />
+			<input asp-for="@Model.Meal.Id" hidden />
 			<div class="row">
 				<div class="form-floating mb-3 col-8">
 					<input asp-for="@Model.Meal.FoodName" class="form-control border-0 shadow" disabled />
@@ -80,7 +81,7 @@
 					<button type="submit" class="btn btn-danger form-control">Delete</button>
 				</div>
 				<div class="col-6 col-md-3">
-					<a asp-controller="Meal" asp-action="Details" class="btn btn-outline-primary border form-control">
+					<a asp-controller="Meal" asp-action="Index" class="btn btn-outline-primary border form-control">
 						Back To Meals
 					</a>
 				</div>
