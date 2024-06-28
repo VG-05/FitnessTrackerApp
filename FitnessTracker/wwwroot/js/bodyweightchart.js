@@ -68,6 +68,17 @@ function onSuccessResult(data) {
                 },
                 title: {
                     display: true,
+                    text: "Bodyweight Progress",
+                    font: {
+                        size: 22
+                    },
+                    padding: {
+                        top: 15,
+                        bottom: 5
+                    }
+                },
+                subtitle: {
+                    display: true,
                     text: "All Time"
                 }
             },
@@ -90,25 +101,25 @@ function onSuccessResult(data) {
     });
 
     $("#bodyweight-weekly").on('click', () => {
-        bodyweightchart.options.plugins.title.text = "This Week"
+        bodyweightchart.options.plugins.subtitle.text = "This Week"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("week").toISO();
         bodyweightchart.options.scales.x.time.displayFormats.day = "EEE, dd MMM";
         bodyweightchart.update();
     })
     $("#bodyweight-monthly").on('click', () => {
-        bodyweightchart.options.plugins.title.text = "This Month"
+        bodyweightchart.options.plugins.subtitle.text = "This Month"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("month").toISO();
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();
     })
     $("#bodyweight-annual").on('click', () => {
-        bodyweightchart.options.plugins.title.text = "This Year"
+        bodyweightchart.options.plugins.subtitle.text = "This Year"
         bodyweightchart.options.scales.x.min = lastLogged.startOf("year").toISO();
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();
     })
     $("#bodyweight-all").on('click', () => {
-        bodyweightchart.options.plugins.title.text = "All Time"
+        bodyweightchart.options.plugins.subtitle.text = "All Time"
         delete bodyweightchart.options.scales.x.min;
         delete bodyweightchart.options.scales.x.time.displayFormats.day;
         bodyweightchart.update();

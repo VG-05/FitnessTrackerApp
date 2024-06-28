@@ -115,6 +115,17 @@ function onSuccessResult(goal, bodyWeights) {
                 },
                 title: {
                     display: true,
+                    text: "Bodyweight Progress vs Goal",
+                    font: {
+                        size: 18,
+                    },
+                    padding: {
+                        top: 5,
+                        bottom: 5
+                    }
+                },
+                subtitle: {
+                    display: true,
                     text: "All Time"
                 }
             },
@@ -146,28 +157,28 @@ function onSuccessResult(goal, bodyWeights) {
     }
 
     $("#Goal-Weekly").on('click', () => {
-        goalchart.options.plugins.title.text = "This Week"
+        goalchart.options.plugins.subtitle.text = "This Week"
         goalchart.options.scales.x.min = lastLogged.startOf("week").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("week").toISO();
         goalchart.options.scales.x.time.displayFormats.day = "EEE, dd MMM";
         goalchart.update();
     })
     $("#Goal-Monthly").on('click', () => {
-        goalchart.options.plugins.title.text = "This Month"
+        goalchart.options.plugins.subtitle.text = "This Month"
         goalchart.options.scales.x.min = lastLogged.startOf("month").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("month").toISO();
         delete goalchart.options.scales.x.time.displayFormats.day;
         goalchart.update();
     })
     $("#Goal-Annual").on('click', () => {
-        goalchart.options.plugins.title.text = "This Year"
+        goalchart.options.plugins.subtitle.text = "This Year"
         goalchart.options.scales.x.min = lastLogged.startOf("year").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("year").toISO();
         delete goalchart.options.scales.x.time.displayFormats.day;
         goalchart.update();
     })
     $("#Goal-AllTime").on('click', () => {
-        goalchart.options.plugins.title.text = "All Time"
+        goalchart.options.plugins.subtitle.text = "All Time"
         delete goalchart.options.scales.x.min;
         delete goalchart.options.scales.x.max;
         delete goalchart.options.scales.x.time.displayFormats.day;

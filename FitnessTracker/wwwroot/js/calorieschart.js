@@ -76,6 +76,17 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
                 },
                 title: {
                     display: true,
+                    text: "Calories Progress vs Goal",
+                    font: {
+                        size: 18,
+                    },
+                    padding: {
+                        top: 5,
+                        bottom: 5
+                    }
+                },
+                subtitle: {
+                    display: true,
                     text: "This Week"
                 }
             },
@@ -105,7 +116,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
 
 
     $("#Calories-Weekly").on('click', () => {
-        goalchart.options.plugins.title.text = "This Week"
+        goalchart.options.plugins.subtitle.text = "This Week"
         goalchart.options.scales.x.min = lastLogged.startOf("week").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("week").toISO();
         goalchart.options.scales.x.time.displayFormats.day = "EEE, dd MMM";
@@ -113,7 +124,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
         goalchart.update();
     })
     $("#Calories-Monthly").on('click', () => {
-        goalchart.options.plugins.title.text = "This Month"
+        goalchart.options.plugins.subtitle.text = "This Month"
         goalchart.options.scales.x.min = lastLogged.startOf("month").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("month").toISO();
         goalchart.options.scales.x.time.minUnit = "day";
@@ -121,7 +132,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
         goalchart.update();
     })
     $("#Calories-Annual").on('click', () => {
-        goalchart.options.plugins.title.text = "This Year"
+        goalchart.options.plugins.subtitle.text = "This Year"
         goalchart.options.scales.x.min = lastLogged.startOf("year").toISO();
         goalchart.options.scales.x.max = lastLogged.endOf("year").toISO();
         goalchart.options.scales.x.time.minUnit = "month";
@@ -129,7 +140,7 @@ function generateCaloriesBarGraph(goal, cumulativeMeals) {
         goalchart.update();
     })
     $("#Calories-AllTime").on('click', () => {
-        goalchart.options.plugins.title.text = "All Time"
+        goalchart.options.plugins.subtitle.text = "All Time"
         delete goalchart.options.scales.x.min;
         delete goalchart.options.scales.x.max;
         delete goalchart.options.scales.x.time.displayFormats.day;
