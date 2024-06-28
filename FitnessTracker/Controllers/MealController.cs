@@ -98,6 +98,7 @@ namespace FitnessTracker.Controllers
             {
                 _unitOfWork.Meals.Add(mealVM.Meal);
                 _unitOfWork.Save();
+                TempData["success"] = "Meal added successfully";
                 return RedirectToAction("Index");
             }
             return View(mealVM.Meal.Id);
@@ -127,6 +128,7 @@ namespace FitnessTracker.Controllers
             {
 				_unitOfWork.Meals.Update(mealVM.Meal);
                 _unitOfWork.Save();
+                TempData["success"] = "Meal updated successfully";
                 return RedirectToAction("Index");
 			}
             return View(mealVM.Meal.Id);
@@ -157,6 +159,7 @@ namespace FitnessTracker.Controllers
 			{
 				_unitOfWork.Meals.Remove(meal);
                 _unitOfWork.Save();
+                TempData["success"] = "Meal deleted successfully";
                 return RedirectToAction("Index");
 			}
             return NotFound();

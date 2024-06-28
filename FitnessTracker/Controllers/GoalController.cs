@@ -93,6 +93,7 @@ namespace FitnessTracker.Controllers
             {
                 _unitOfWork.Goal.Add(goalVM.Goal);
                 _unitOfWork.Save();
+                TempData["success"] = "Goal added successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -151,6 +152,7 @@ namespace FitnessTracker.Controllers
             {
                 _unitOfWork.Goal.Update(goalVM.Goal);
                 _unitOfWork.Save();
+                TempData["success"] = "Goal updated successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -188,6 +190,7 @@ namespace FitnessTracker.Controllers
             }
             _unitOfWork.Goal.Remove(goalFromDb);
             _unitOfWork.Save();
+            TempData["success"] = "Goal deleted successfully";
             return RedirectToAction("Index");
         }
 
@@ -200,7 +203,7 @@ namespace FitnessTracker.Controllers
 			{
 				return NotFound();
 			}
-			List<Goal> goalList = _unitOfWork.Goal.GetSome(m => m.UserID == user.Id).ToList();
+			List<Goal> goalList = _unitOfWork.Goal.GetSome(m => m.UserID == user.Id).OrderBy(u => u.TargetDate).ToList();
             goalList.ForEach(goal => goal.User = null);
             return Json(new { data = goalList });
         }

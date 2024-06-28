@@ -66,6 +66,7 @@ namespace FitnessTracker.Controllers
 			{
 				_unitOfWork.BodyWeight.Add(bodyWeightVM.BodyWeight);
 				_unitOfWork.Save();
+				TempData["success"] = "Bodyweight added successfully";
 				return RedirectToAction("Index");
 			}
 			return View();
@@ -101,7 +102,8 @@ namespace FitnessTracker.Controllers
 			{
 				_unitOfWork.BodyWeight.Update(bodyWeightVM.BodyWeight);
 				_unitOfWork.Save();
-				return RedirectToAction("Index");
+                TempData["success"] = "Bodyweight updated successfully";
+                return RedirectToAction("Index");
 			}
 			return View();
 		}
@@ -138,7 +140,8 @@ namespace FitnessTracker.Controllers
 			}
 			_unitOfWork.BodyWeight.Remove(bodyWeightFromDb);
 			_unitOfWork.Save();
-			return RedirectToAction("Index");
+            TempData["success"] = "Bodyweight deleted successfully";
+            return RedirectToAction("Index");
 		}
 
 		#region APICALLS
@@ -150,8 +153,8 @@ namespace FitnessTracker.Controllers
 			{
 				return NotFound();
 			}
-			List<BodyWeight> bodyWeightList = _unitOfWork.BodyWeight.GetSome(m => m.UserID == user.Id).ToList();
-			bodyWeightList.ForEach(bodyWeight => bodyWeight.User = null);
+			List<BodyWeight> bodyWeightList = _unitOfWork.BodyWeight.GetSome(m => m.UserID == user.Id).OrderBy(u => u.Date).ToList();
+			bodyWeightList.ForEach(bodyWeight => bodyWeight.User = null);         
 			return Json(new { data = bodyWeightList });
 		}
 		#endregion
