@@ -88,9 +88,3 @@ Note: The project includes demo API keys for quick setup and testing. These keys
 
 
 
-## Deployment on GitHub Pages
-
-The project is also hosted on GitHub Pages for easy access. You can view it [here](https://VG-05.github.io/FitnessTracker/).
-
-
-
