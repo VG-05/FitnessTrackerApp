@@ -18,6 +18,7 @@ namespace Fitness.DataAccess.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
             base.OnModelCreating(modelBuilder);
+			// seed data
 			/*modelBuilder.Entity<BodyWeight>().HasData(
 				new BodyWeight { Id = 1, Weight = 80.0, Unit = "kgs", Date = new DateTime(2020, 1, 1) },
 				new BodyWeight { Id = 2, Weight = 75.0, Unit = "kgs", Date = new DateTime(2020, 1, 8) },
