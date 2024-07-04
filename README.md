@@ -20,9 +20,37 @@ FitnessTracker is a web application for tracking nutrition and fitness goals, al
 
 - Notifications: Toast notifications implemented using Toastr for better user interaction feedback.
 
+## Screenshots
 
+Bodyweight Tracking:
 
-## Tech Stack
+![Bodyweight Tracking Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/3da1a2c0-baf9-426c-9a4d-8c71c5cfe8e1)
+
+Nutrition Tracking:
+
+![Nutrition Tracking Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/711824fb-46de-4d90-aa4c-938f27efff2d)
+
+Meal Tracking:
+
+![Meal Tracking Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/03c1ce33-604b-41eb-ad14-e6677c26aa79)
+
+Food Search (using [USDA FoodData Central API](https://fdc.nal.usda.gov/api-guide.html)):
+
+![Food Search Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/e7444479-3aa0-4d15-8401-3b2fd11f277f)
+
+Food Details:
+
+![Food Details Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/4b78e8d5-10cf-4b32-baba-593d1a90a81c)
+
+Set Goals (with recommended macros using [Nutrition Calculator Rapid API](https://rapidapi.com/sprestrelski/api/nutrition-calculator)):
+
+![Set Goal Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/342717cc-5141-4129-8611-7b59dae9dc3a)
+
+Goal Tracking:
+
+![Goal Tracking Screenshot](https://github.com/VG-05/FitnessTrackerApp/assets/136686473/c44ba6e1-d2d3-4baf-915f-16affdd19ef1)
+
+## Technologies Used
 
 - ASP.NET Core MVC
 - Entity Framework Core
@@ -83,6 +111,7 @@ FitnessTracker is a web application for tracking nutrition and fitness goals, al
 ```
 
 Note: The project includes demo API keys for quick setup and testing. These keys have limited functionality and are intended for demonstration purposes only.
+
 
 
 
